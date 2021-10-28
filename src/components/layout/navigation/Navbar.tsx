@@ -1,29 +1,32 @@
 import styled from "styled-components";
 import { useState } from "react";
-
 import { mediaQueries } from "../../../utils/mediaQueries";
+import Header from "../Header/Header";
 import Logo from "../../Logo/Logo";
 import NavLinks from "./NavLinks";
+import MobileNav from "./MobileNav/MobileNav";
 import { HiMenu, HiX } from "react-icons/hi";
 import Container from "../Container/Container";
+import Button from "../../Button/Button";
 
-const Header = styled.header`
+const Nav = styled.nav`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
-const Nav = styled.nav``;
 const NavList = styled.ul`
   display: none;
   ${mediaQueries("sm")`
   display: flex;
 `}
 `;
+
 const ToggleMenuBtn = styled.button`
   display: flex;
   background: var(--cool-gray-2);
   border-radius: 1000px;
   padding: 0.5rem;
+  ${mediaQueries("sm")`
+  display: none;
+  `}
 `;
 
 const Navbar = () => {
@@ -35,16 +38,18 @@ const Navbar = () => {
         <Nav>
           <NavList>
             <li>
-              <NavLinks href="/">Home</NavLinks>
+              <NavLinks to="/">Home</NavLinks>
             </li>
             <li>
-              <NavLinks href="/establishments">Establishments</NavLinks>
+              <NavLinks to="/establishments">Establishments</NavLinks>
             </li>
             <li>
-              <NavLinks href="/contact">Contact</NavLinks>
+              <NavLinks to="/contact">Contact</NavLinks>
             </li>
           </NavList>
+
           <ToggleMenuBtn
+            aria-roledescription="Navmenu toggle button"
             onClick={() => {
               setIsToggled(!isToggled);
             }}
@@ -52,7 +57,9 @@ const Navbar = () => {
             {isToggled ? <HiX size={24} /> : <HiMenu size={24} />}
           </ToggleMenuBtn>
         </Nav>
+        <Button>Log in</Button>
       </Header>
+      <MobileNav isToggled={isToggled} />
     </Container>
   );
 };
