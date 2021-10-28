@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface ContainerProps {
-  children: React.ReactChild;
+  children: React.ReactNode;
 }
 
 const Container = styled.div<ContainerProps>`
