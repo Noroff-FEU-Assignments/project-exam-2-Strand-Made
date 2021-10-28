@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import Container from "./components/layout/Container/Container";
+import RelativeWrapper from "./components/layout/navigation/MobileNav/RelativeWrapper";
 import Navbar from "./components/layout/navigation/Navbar";
 import GlobalStyle from "./globalStyle/GlobalStyle";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
-import Establishment from "./pages/Establishment";
+import Establishment from "./pages/Establishments";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
@@ -13,7 +12,7 @@ import Search from "./pages/Search";
 function App() {
   return (
     <Router>
-      <div>
+      <RelativeWrapper>
         <GlobalStyle />
         <Navbar />
 
@@ -21,7 +20,7 @@ function App() {
           <Route path="/search">
             <Search />
           </Route>
-          <Route path="/establishment">
+          <Route path="/establishments">
             <Establishment />
           </Route>
           <Route path="/contact">
@@ -37,7 +36,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
-      </div>
+      </RelativeWrapper>
     </Router>
   );
 }
