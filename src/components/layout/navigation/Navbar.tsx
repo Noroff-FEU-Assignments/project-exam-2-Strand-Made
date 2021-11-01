@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { mediaQueries } from "../../../utils/mediaQueries";
+import { mediaQueries } from "../../../utils/styleHelpers";
 import Header from "../Header/Header";
 import Logo from "../../Logo/Logo";
 import NavLinks from "./NavLinks";
@@ -11,6 +11,7 @@ import Button from "../../Button/Button";
 
 const Nav = styled.nav`
   display: flex;
+  padding: 0.25rem 0;
 `;
 const NavList = styled.ul`
   display: none;

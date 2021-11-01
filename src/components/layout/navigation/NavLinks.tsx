@@ -1,5 +1,5 @@
 import React from "react";
-import { mediaQueries } from "../../../utils/mediaQueries";
+import { mediaQueries } from "../../../utils/styleHelpers";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 

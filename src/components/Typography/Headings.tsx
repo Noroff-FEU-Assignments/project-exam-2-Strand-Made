@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from "react";
+
 import styled from "styled-components";
 
 interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -10,7 +11,7 @@ const Heading = styled.h1`
   color: ${(props) => (props.color ? props.color : "var(--cool-gray-9)")};
 `;
 
-const Headings = ({ children, ...rest }: HeadingProps) => {
+const Headings = ({ children, color, ...rest }: HeadingProps) => {
   return (
     <Heading as="" {...rest}>
       {children}

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { mediaQueries } from "../../utils/mediaQueries";
+import { mediaQueries } from "../../utils/styleHelpers";
 
 const LogoLink = styled.a`
-  font-family: "abril fatface";
+  font-family: "abril fatface", serif;
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--cool-gray-9);

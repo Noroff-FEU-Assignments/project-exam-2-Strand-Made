@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavLinks from "../NavLinks";
-import { mediaQueries } from "../../../../utils/mediaQueries";
+import { mediaQueries } from "../../../../utils/styleHelpers";
 import FlexContainer from "../../utilities/Flex/FlexContainer";
 import Button from "../../../Button/Button";
 
