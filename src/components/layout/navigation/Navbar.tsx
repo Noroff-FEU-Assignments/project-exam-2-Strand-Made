@@ -7,7 +7,7 @@ import NavLinks from "./NavLinks";
 import MobileNav from "./MobileNav/MobileNav";
 import { HiMenu, HiX } from "react-icons/hi";
 import Container from "../Container/Container";
-import Button from "../../Button/Button";
+import { PrimaryButton } from "../../Button/Button";
 
 const Nav = styled.nav`
   display: flex;
@@ -39,7 +39,9 @@ const Navbar = () => {
         <Nav>
           <NavList>
             <li>
-              <NavLinks to="/">Home</NavLinks>
+              <NavLinks exact to="/">
+                Home
+              </NavLinks>
             </li>
             <li>
               <NavLinks to="/establishments">Establishments</NavLinks>
@@ -58,7 +60,7 @@ const Navbar = () => {
             {isToggled ? <HiX size={24} /> : <HiMenu size={24} />}
           </ToggleMenuBtn>
         </Nav>
-        <Button>Log in</Button>
+        <PrimaryButton>Log in</PrimaryButton>
       </Header>
       <MobileNav isToggled={isToggled} />
     </Container>
