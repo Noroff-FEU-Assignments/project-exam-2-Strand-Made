@@ -1,51 +1,64 @@
 import Hero from "../components/layout/Hero/Hero";
 import SearchBar from "../components/forms/SearchBar/SearchBar";
 import Section from "../components/layout/Section/Section";
-import Headings from "../components/Typography/Headings";
 import Container from "../components/layout/Container/Container";
 import SuggestionsCard from "../components/SuggestionsCard/SuggestionsCard";
 import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
 import Banner from "../components/Banner/Banner";
 import Heading from "../components/Typography/Heading";
+import Spacer from "../components/layout/utilities/Spacer/Spacer";
+import homes from "../assets/homes.jpg";
+import cabinLiving from "../assets/cabin-living.jpg";
+import cityLife from "../assets/city-life.jpg";
 
 const Home = () => {
+  const Suggestions = [
+    {
+      title: "City Life",
+      img: cityLife,
+      imgAlt: "Neatly folded white towels resting at the end of the bed.",
+    },
+    {
+      title: "Country Retreats",
+      img: cabinLiving,
+      imgAlt:
+        "Beautiful cabin lighting up the dark forest with clear star-sudded sky",
+    },
+    {
+      title: "Homes",
+      img: homes,
+      imgAlt:
+        "Large house lighting up the dark autumn weather with its warm lights.",
+    },
+  ];
+
   return (
-    <div>
+    <main>
       <Hero>
         <SearchBar />
       </Hero>
-      <Section>
-        <Container>
-          <Heading.H2 size="2xl">Looking for something special?</Heading.H2>
-          <FlexContainer col gap="3rem">
-            <SuggestionsCard
-              title="City Life"
-              img={
-                "https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1157&q=80"
-              }
-              imgDesc="Hotelroom"
-            />
-            <SuggestionsCard
-              title="Country Retreats"
-              img={
-                "https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1157&q=80"
-              }
-              imgDesc="Hotelroom"
-            />
-            <SuggestionsCard
-              title="Homes"
-              img={
-                "https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1157&q=80"
-              }
-              imgDesc="Hotelroom"
-            />
+      <Spacer mb="4" />
+
+      <Container>
+        <Section>
+          <Heading.H2 weight="700" size="xl">
+            Looking for something special?
+          </Heading.H2>
+          <FlexContainer responsive="row" col gap="2rem">
+            {Suggestions.map((suggestion) => {
+              const { title, img, imgAlt } = suggestion;
+              return (
+                <SuggestionsCard title={title} img={img} imgDesc={imgAlt} />
+              );
+            })}
           </FlexContainer>
-          <Section>
-            <Banner />
-          </Section>
-        </Container>
-      </Section>
-    </div>
+        </Section>
+        <Spacer mb="6" />
+        <Section>
+          <Banner />
+        </Section>
+      </Container>
+    </main>
   );
 };
 
