@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
-    font-family: "proxima nova", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
+    font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
     line-height: 1.5;
     color: var(--cool-gray-9);
 }
@@ -60,17 +60,21 @@ a {
     color: var(--blue-5);
 }
 ::placeholder, input {
-    font-family: "proxima nova", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
+    font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
 }
 li {
     list-style: none;
+}
+h1 {
+    line-height: 3rem;
+    
 }
 button {
     outline: none;
     border: none;
     cursor: pointer;
     background: none;
-    font-family: "proxima nova", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif; 
+    font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif; 
 }
 
 
