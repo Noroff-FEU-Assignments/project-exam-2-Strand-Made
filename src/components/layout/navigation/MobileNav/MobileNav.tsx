@@ -2,7 +2,8 @@ import styled from "styled-components";
 import NavLinks from "../NavLinks";
 import { mediaQueries } from "../../../../utils/styleHelpers";
 import FlexContainer from "../../utilities/Flex/FlexContainer";
-import Button from "../../../Button/Button";
+import { PrimaryButton } from "../../../Button/Button";
+import { shadows } from "../../../../globalStyle/_variables";
 
 interface MobileNavProps {
   isToggled: boolean;
@@ -10,7 +11,7 @@ interface MobileNavProps {
 
 const MobileMenuContainer = styled.div<MobileNavProps>`
   position: absolute;
-
+  box-shadow: ${shadows.lg};
   background: var(--cool-gray-1);
   padding: 1.25rem;
   left: 0;
@@ -56,7 +57,7 @@ const MobileNav = ({ isToggled }: MobileNavProps) => {
               </FlexContainer>
             </MobileNavList>
             <FlexContainer justifyContent="end">
-              <Button>Login</Button>
+              <PrimaryButton>Login</PrimaryButton>
             </FlexContainer>
           </>
         ) : null}
