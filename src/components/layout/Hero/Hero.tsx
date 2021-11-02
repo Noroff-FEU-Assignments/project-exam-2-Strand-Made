@@ -2,21 +2,23 @@ import styled from "styled-components";
 import { ReactNode } from "react";
 import { mediaQueries } from "../../../utils/styleHelpers";
 import HeroContent from "./HeroContent";
-import HeroHeading from "./HeroHeading";
+import hero from "../../../assets/hero.jpg";
+import Heading from "../../Typography/Heading";
 
 type HeroProps = {
   children: ReactNode;
 };
 
-const HeroSection = styled.section`
-  background-image: url("/assets/hero.jpg");
+export const HeroSection = styled.section`
+  background-image: url(${hero});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   height: 450px;
+  padding: 0.5rem;
   width: 100%;
   margin: auto;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   ${mediaQueries("sm")`
   border-radius: 8px;
   max-width: 800px;
@@ -33,9 +35,7 @@ const Hero = ({ children }: HeroProps) => {
   return (
     <HeroSection>
       <HeroContent>
-        <HeroHeading size="3xl">
-          Book your stay in Bergen with Holidaze
-        </HeroHeading>
+        <Heading size="3xl">Experience Bergen with Holidaze</Heading>
         {children}
       </HeroContent>
     </HeroSection>
