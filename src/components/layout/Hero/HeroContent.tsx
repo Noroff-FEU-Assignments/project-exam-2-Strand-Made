@@ -9,7 +9,7 @@ type HeroContentProps = {
 const HeroContent = ({ children }: HeroContentProps) => {
   return (
     <Container>
-      <FlexContainer col justifyContent="center" alignContent="center">
+      <FlexContainer col gap="1rem" justifyContent="center" alignItems="center">
         {children}
       </FlexContainer>
     </Container>
