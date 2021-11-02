@@ -8,6 +8,7 @@ import Establishment from "./pages/Establishments";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
+import Spacer from "./components/layout/utilities/Spacer/Spacer";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <RelativeWrapper>
         <GlobalStyle />
         <Navbar />
+        <Spacer mb="1" />
 
         <Switch>
           <Route path="/search">
