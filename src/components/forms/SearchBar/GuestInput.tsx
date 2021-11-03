@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { HiOutlineUsers } from "react-icons/hi";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
-import { Label, InputContainer } from "./HotelInput";
+import Label from "../Label/Label";
+import TextInput from "../Input/TextInput";
+import InputContainer from "../Input/InputContainer";
 
 const GuestInput = () => {
   return (
