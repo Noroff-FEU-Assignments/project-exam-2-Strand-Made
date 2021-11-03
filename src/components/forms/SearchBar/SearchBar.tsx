@@ -27,6 +27,10 @@ flex-direction: row;
 `}
 `;
 
+const ButtonContainer = styled.div`
+  align-self: flex-end;
+`;
+
 const SearchBar = () => {
   return (
     <SearchHotel>
@@ -36,7 +40,9 @@ const SearchBar = () => {
         <DateInput />
 
         <GuestInput />
-        <PrimaryButton> Find Hotels</PrimaryButton>
+        <ButtonContainer>
+          <PrimaryButton size="md"> Search</PrimaryButton>
+        </ButtonContainer>
       </Flex>
     </SearchHotel>
   );
