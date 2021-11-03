@@ -4,6 +4,7 @@ import { mediaQueries } from "../../../utils/styleHelpers";
 import HeroContent from "./HeroContent";
 import hero from "../../../assets/hero.jpg";
 import Heading from "../../Typography/Heading";
+import Spacer from "../utilities/Spacer/Spacer";
 
 type HeroProps = {
   children: ReactNode;
@@ -17,11 +18,10 @@ export const HeroSection = styled.section`
   height: 450px;
   padding: 0.5rem;
   width: 100%;
-  margin: auto;
-  margin-bottom: 1rem;
+  margin: 0 auto;
   ${mediaQueries("sm")`
   border-radius: 8px;
-  max-width: 800px;
+  max-width: 700px;
   `}
   ${mediaQueries("md")`
   max-width: 1100px;
