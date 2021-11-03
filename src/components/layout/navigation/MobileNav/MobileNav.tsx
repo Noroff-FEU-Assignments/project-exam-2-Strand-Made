@@ -57,7 +57,7 @@ const MobileNav = ({ isToggled }: MobileNavProps) => {
               </FlexContainer>
             </MobileNavList>
             <FlexContainer justifyContent="end">
-              <PrimaryButton>Login</PrimaryButton>
+              <PrimaryButton size="md">Login</PrimaryButton>
             </FlexContainer>
           </>
         ) : null}
