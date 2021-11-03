@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
 import Spacer from "./components/layout/utilities/Spacer/Spacer";
+import Footer from "./components/layout/Footer/Footer";
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
           </Route>
         </Switch>
       </RelativeWrapper>
+      <Spacer mt="3" />
+      <Footer />
     </Router>
   );
 }
