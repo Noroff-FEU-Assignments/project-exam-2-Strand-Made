@@ -59,7 +59,7 @@ a {
     text-decoration: none;
     color: var(--blue-5);
 }
-::placeholder, input {
+::placeholder, input, textarea {
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
 }
 li {
