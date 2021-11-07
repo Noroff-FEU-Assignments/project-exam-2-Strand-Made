@@ -7,10 +7,12 @@ import { shadows } from "../../../../globalStyle/_variables";
 
 interface MobileNavProps {
   isToggled: boolean;
+  setIsToggled?: any;
 }
 
 const MobileMenuContainer = styled.div<MobileNavProps>`
   position: absolute;
+  z-index: 10;
   box-shadow: ${shadows.lg};
   background: var(--cool-gray-1);
   padding: 1.25rem;
@@ -31,7 +33,7 @@ const MobileNavItem = styled.li`
   width: 100%;
 `;
 
-const MobileNav = ({ isToggled }: MobileNavProps) => {
+const MobileNav = ({ isToggled, setIsToggled }: MobileNavProps) => {
   return (
     <>
       <MobileMenuContainer isToggled={isToggled}>
@@ -40,17 +42,17 @@ const MobileNav = ({ isToggled }: MobileNavProps) => {
             <MobileNavList role="menu" aria-roledescription="mobile nav menu">
               <FlexContainer col gap="1rem">
                 <MobileNavItem>
-                  <NavLinks mobile exact to="/">
+                  <NavLinks onClick={setIsToggled} mobile to="/">
                     Home
                   </NavLinks>
                 </MobileNavItem>
                 <MobileNavItem>
-                  <NavLinks mobile to="/establishments">
+                  <NavLinks onClick={setIsToggled} mobile to="/establishments">
                     Establishments
                   </NavLinks>
                 </MobileNavItem>
                 <MobileNavItem>
-                  <NavLinks mobile to="/contact">
+                  <NavLinks onClick={setIsToggled} mobile to="/contact">
                     Contact
                   </NavLinks>
                 </MobileNavItem>

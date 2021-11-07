@@ -32,7 +32,7 @@ const Link = styled(NavLink)<NavLinkProps>`
       border-bottom: 3px solid var(--cool-gray-8);
     }
     `}
-  }
+  
 
   ${mediaQueries("sm")`
     &.active{
@@ -47,13 +47,13 @@ const Link = styled(NavLink)<NavLinkProps>`
 interface NavLinkProps {
   children: React.ReactNode;
   mobile?: boolean;
-  to: string | object | Function;
-  exact?: boolean;
+  to: string | object;
+  onClick?: any;
 }
 
-const NavLinks = ({ children, exact, to }: NavLinkProps) => {
+const NavLinks = ({ children, to, onClick }: NavLinkProps) => {
   return (
-    <Link exact={exact} activeClassName="active" to={to}>
+    <Link onClick={onClick} to={to}>
       {children}
     </Link>
   );

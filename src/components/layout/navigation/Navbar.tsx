@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import useToggle from "../../../hooks/useToggle";
 import { mediaQueries } from "../../../utils/styleHelpers";
 import Header from "../Header/Header";
 import Logo from "../../Logo/Logo";
@@ -31,7 +31,7 @@ const ToggleMenuBtn = styled.button`
 `;
 
 const Navbar = () => {
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useToggle();
   return (
     <Container>
       <Header>
@@ -39,9 +39,7 @@ const Navbar = () => {
         <Nav>
           <NavList>
             <li>
-              <NavLinks exact to="/">
-                Home
-              </NavLinks>
+              <NavLinks to="/">Home</NavLinks>
             </li>
             <li>
               <NavLinks to="/establishments">Establishments</NavLinks>
@@ -53,16 +51,14 @@ const Navbar = () => {
 
           <ToggleMenuBtn
             aria-roledescription="Navmenu toggle button"
-            onClick={() => {
-              setIsToggled(!isToggled);
-            }}
+            onClick={setIsToggled}
           >
             {isToggled ? <HiX size={24} /> : <HiMenu size={24} />}
           </ToggleMenuBtn>
         </Nav>
         <SecondaryButton size="md">Log in</SecondaryButton>
       </Header>
-      <MobileNav isToggled={isToggled} />
+      <MobileNav setIsToggled={setIsToggled} isToggled={isToggled} />
     </Container>
   );
 };
