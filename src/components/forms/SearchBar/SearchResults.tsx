@@ -26,7 +26,6 @@ const ResultItem = styled.li`
     display: block;
   }
 `;
-const SearchLink = styled(Link)``;
 
 interface ListProps {
   search: string;
@@ -34,6 +33,7 @@ interface ListProps {
   establishments: {
     id: number;
     title: string;
+    slug: string;
   }[];
 }
 
@@ -48,20 +48,30 @@ const SearchResultList = ({ establishments, search, setSearch }: ListProps) => {
 
   return (
     <List>
-      {establishments.map((establishment) => (
-        <ResultItem key={establishment.id}>
-          <Link to="/">
-            <span
-              onClick={() => {
-                const title = establishment.title;
-                setSearch(title);
-              }}
-            >
-              {establishment.title}
-            </span>
-          </Link>
-        </ResultItem>
-      ))}
+      {establishments
+        .filter((establishment) => {
+          const { title } = establishment;
+          const lowerCaseTitle = title.toLowerCase();
+          const lowerCaseSearch = search.toLowerCase();
+          if (lowerCaseTitle.includes(lowerCaseSearch)) {
+            return establishment;
+          }
+          return false;
+        })
+        .map((establishment) => (
+          <ResultItem key={establishment.id}>
+            <Link to={`/establishments/${establishment.slug}`}>
+              <span
+                onClick={() => {
+                  const { title } = establishment;
+                  setSearch(title);
+                }}
+              >
+                {establishment.title}
+              </span>
+            </Link>
+          </ResultItem>
+        ))}
       {lengthCheck && (
         <li>
           <Link to="/">View all results</Link>
