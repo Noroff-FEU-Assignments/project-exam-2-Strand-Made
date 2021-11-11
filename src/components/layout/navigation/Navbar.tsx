@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useToggle from "../../../hooks/useToggle";
+import { useAuth } from "../../../context/AuthContext";
 import { mediaQueries } from "../../../utils/styleHelpers";
 import Header from "../Header/Header";
 import Logo from "../../Logo/Logo";
@@ -7,6 +8,7 @@ import NavLinks from "./NavLinks";
 import MobileNav from "./MobileNav/MobileNav";
 import { HiMenu, HiX } from "react-icons/hi";
 import Container from "../Container/Container";
+import LinkButton from "../../Button/LinkButton";
 import { SecondaryButton } from "../../Button/Button";
 
 const Nav = styled.nav`
@@ -32,6 +34,7 @@ const ToggleMenuBtn = styled.button`
 
 const Navbar = () => {
   const [isToggled, setIsToggled] = useToggle();
+  const { auth, setAuth } = useAuth();
   return (
     <Container>
       <Header>
@@ -56,7 +59,15 @@ const Navbar = () => {
             {isToggled ? <HiX size={24} /> : <HiMenu size={24} />}
           </ToggleMenuBtn>
         </Nav>
-        <SecondaryButton size="md">Log in</SecondaryButton>
+        {auth ? (
+          <SecondaryButton onClick={() => setAuth(null)} size="md">
+            Log Out
+          </SecondaryButton>
+        ) : (
+          <LinkButton to="/login" size="md">
+            Log in
+          </LinkButton>
+        )}
       </Header>
       <MobileNav setIsToggled={setIsToggled} isToggled={isToggled} />
     </Container>

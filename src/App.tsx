@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import RelativeWrapper from "./components/layout/navigation/MobileNav/RelativeWrapper";
 import Navbar from "./components/layout/navigation/Navbar";
 import GlobalStyle from "./globalStyle/GlobalStyle";
@@ -14,7 +15,7 @@ import Establishment from "./pages/Establishment";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <RelativeWrapper>
         <GlobalStyle />
         <Navbar />
@@ -37,7 +38,7 @@ function App() {
       </RelativeWrapper>
       <Spacer mt="3" />
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
 

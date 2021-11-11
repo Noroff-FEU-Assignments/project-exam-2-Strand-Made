@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { useAuth } from "../../../../context/AuthContext";
 import NavLinks from "../NavLinks";
 import { mediaQueries } from "../../../../utils/styleHelpers";
 import FlexContainer from "../../utilities/Flex/FlexContainer";
-import { PrimaryButton } from "../../../Button/Button";
 import { shadows } from "../../../../globalStyle/_variables";
+import LinkButton from "../../../Button/LinkButton";
+import { SecondaryButton } from "../../../Button/Button";
 
 interface MobileNavProps {
   isToggled: boolean;
@@ -34,6 +36,7 @@ const MobileNavItem = styled.li`
 `;
 
 const MobileNav = ({ isToggled, setIsToggled }: MobileNavProps) => {
+  const { auth, setAuth } = useAuth();
   return (
     <>
       <MobileMenuContainer isToggled={isToggled}>
@@ -59,7 +62,15 @@ const MobileNav = ({ isToggled, setIsToggled }: MobileNavProps) => {
               </FlexContainer>
             </MobileNavList>
             <FlexContainer justifyContent="end">
-              <PrimaryButton size="md">Login</PrimaryButton>
+              {auth ? (
+                <SecondaryButton onClick={() => setAuth(null)} size="md">
+                  Log Out
+                </SecondaryButton>
+              ) : (
+                <LinkButton to="/login" size="md">
+                  Login
+                </LinkButton>
+              )}
             </FlexContainer>
           </>
         ) : null}
