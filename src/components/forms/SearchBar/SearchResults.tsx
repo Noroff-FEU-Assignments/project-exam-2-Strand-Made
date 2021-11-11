@@ -28,8 +28,7 @@ const ResultItem = styled.li`
 `;
 
 interface ListProps {
-  search: string;
-  setSearch: any;
+  searching: boolean;
   establishments: {
     id: number;
     title: string;
@@ -37,7 +36,7 @@ interface ListProps {
   }[];
 }
 
-const SearchResultList = ({ establishments, search, setSearch }: ListProps) => {
+const SearchResultList = ({ establishments, searching }: ListProps) => {
   const [lengthCheck, setLengthCheck] = useState(false);
   useEffect(() => {
     if (establishments.length > 10) {
@@ -45,33 +44,16 @@ const SearchResultList = ({ establishments, search, setSearch }: ListProps) => {
       establishments.length = 8;
     }
   }, [establishments]);
-
   return (
     <List>
-      {establishments
-        .filter((establishment) => {
-          const { title } = establishment;
-          const lowerCaseTitle = title.toLowerCase();
-          const lowerCaseSearch = search.toLowerCase();
-          if (lowerCaseTitle.includes(lowerCaseSearch)) {
-            return establishment;
-          }
-          return false;
-        })
-        .map((establishment) => (
-          <ResultItem key={establishment.id}>
-            <Link to={`/establishments/${establishment.slug}`}>
-              <span
-                onClick={() => {
-                  const { title } = establishment;
-                  setSearch(title);
-                }}
-              >
-                {establishment.title}
-              </span>
-            </Link>
-          </ResultItem>
-        ))}
+      <li>{searching && <div>Searching...</div>}</li>
+      {establishments.map((establishment) => (
+        <ResultItem key={establishment.id}>
+          <Link to={`/establishments/${establishment.slug}`}>
+            <span>{establishment.title}</span>
+          </Link>
+        </ResultItem>
+      ))}
       {lengthCheck && (
         <li>
           <Link to="/">View all results</Link>
