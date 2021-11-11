@@ -1,20 +1,22 @@
 import styled from "styled-components";
-import { mediaQueries } from "../../utils/styleHelpers";
+import { Link } from "react-router-dom";
+import { ReactNode } from "react";
+import { State, To } from "history";
+import { buttonSizes } from "./Button";
 import { shadows } from "../../globalStyle/_variables";
 import Header from "../layout/Header/Header";
+import { mediaQueries } from "../../utils/styleHelpers";
 
-export interface ButtonProps {
-  children: string;
+interface LinkProps {
+  children?: ReactNode;
+  replace?: boolean;
+  state?: State;
+  to: To;
   full?: boolean;
   size?: keyof typeof buttonSizes;
-  href?: string;
 }
-export const buttonSizes = {
-  sm: "8px 10px",
-  md: "12px 16px",
-  l: "15px 12px",
-};
-export const PrimaryButton = styled.button<ButtonProps>`
+
+const StyledLink = styled(Link)<LinkProps>`
   display: inline-block;
   background: var(--blue-5);
   font-size: ${(props) => {
@@ -47,14 +49,12 @@ export const PrimaryButton = styled.button<ButtonProps>`
   }
 `;
 
-export const SecondaryButton = styled(PrimaryButton)`
-  background: none;
-  color: var(--blue-5);
-  box-shadow: none;
-  :active,
-  :focus {
-    background: none;
-    color: var(--blue-6);
-    box-shadow: none;
-  }
-`;
+const LinkButton = ({ children, to, replace, state }: LinkProps) => {
+  return (
+    <StyledLink state={state} replace={replace} to={to}>
+      {children}
+    </StyledLink>
+  );
+};
+
+export default LinkButton;
