@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
+import useDebounce from "../../../hooks/useDebounce";
 import InputContainer from "../Input/InputContainer";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import TextInput from "../Input/TextInput";
@@ -37,27 +38,45 @@ const ButtonContainer = styled.div`
 
 const SearchBar = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
-  const [loading, setLoading] = useState(true);
+  const [searching, setSearching] = useState(false);
   const [error, setError] = useState(false);
-  const [search, setSearch] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [hotels, setHotels] = useState([]);
 
-  useEffect(() => {
-    const getEstablishments = async () => {
-      try {
-        const res = await axios.get(`${baseUrl}/establishments`);
+  const debouncedSearchValue = useDebounce(searchValue, 500);
 
-        setHotels(res.data);
+  useEffect(() => {
+    async function searchHotels(search: string) {
+      try {
+        const res = await axios.get(
+          `${baseUrl}/establishments?title_contains=${search}`
+        );
+        const { data } = res;
+        return data;
       } catch (error) {
+        console.log(error);
         setError(true);
+        return [];
       }
-    };
-    getEstablishments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }
+    if (debouncedSearchValue) {
+      setSearching(true);
+      searchHotels(debouncedSearchValue).then((data) => {
+        setSearching(false);
+        setHotels(data);
+      });
+    } else {
+      setHotels([]);
+      setSearching(false);
+    }
+  }, [baseUrl, debouncedSearchValue]);
 
   return (
-    <SearchHotel>
+    <SearchHotel
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <Flex>
         <InputContainer>
           <FlexContainer col>
@@ -66,8 +85,8 @@ const SearchBar = () => {
               <span>Hotel</span>
             </Label>
             <TextInput
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
               placeholder="Where are you staying?"
             />
           </FlexContainer>
@@ -77,12 +96,8 @@ const SearchBar = () => {
         </ButtonContainer>
       </Flex>
       {error && <div>An error occured!</div>}
-      {search ? (
-        <SearchResultList
-          search={search}
-          setSearch={setSearch}
-          establishments={hotels}
-        />
+      {searchValue ? (
+        <SearchResultList searching={searching} establishments={hotels} />
       ) : null}
     </SearchHotel>
   );
