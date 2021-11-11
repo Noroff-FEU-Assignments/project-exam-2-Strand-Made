@@ -40,8 +40,9 @@ const Home = () => {
       }
     }
     getCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [baseUrl]);
+
+  useEffect(() => {});
 
   return (
     <main>
