@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { State, To } from "history";
 import { buttonSizes } from "./Button";
 import { shadows } from "../../globalStyle/_variables";
@@ -11,6 +11,7 @@ interface LinkProps {
   children?: ReactNode;
   replace?: boolean;
   state?: State;
+  onClick?: any;
   to: To;
   full?: boolean;
   size?: keyof typeof buttonSizes;
@@ -42,16 +43,28 @@ const StyledLink = styled(Link)<LinkProps>`
   }
   ${Header} & {
     display: none;
-    word-wrap: none;
     ${mediaQueries("sm")`
-      display: block;
+      display: inline-block;
       `}
   }
 `;
 
-const LinkButton = ({ children, to, replace, state }: LinkProps) => {
+const LinkButton = ({
+  children,
+  to,
+  replace,
+  state,
+  onClick,
+  size,
+}: LinkProps) => {
   return (
-    <StyledLink state={state} replace={replace} to={to}>
+    <StyledLink
+      size={size}
+      onClick={onClick}
+      state={state}
+      replace={replace}
+      to={to}
+    >
       {children}
     </StyledLink>
   );

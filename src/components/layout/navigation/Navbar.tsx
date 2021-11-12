@@ -50,6 +50,11 @@ const Navbar = () => {
             <li>
               <NavLinks to="/contact">Contact</NavLinks>
             </li>
+            {auth && (
+              <li>
+                <NavLinks to="/admin">Admin</NavLinks>
+              </li>
+            )}
           </NavList>
 
           <ToggleMenuBtn
@@ -60,11 +65,17 @@ const Navbar = () => {
           </ToggleMenuBtn>
         </Nav>
         {auth ? (
-          <SecondaryButton onClick={() => setAuth(null)} size="md">
+          <SecondaryButton
+            onClick={() => {
+              setAuth(null);
+              setIsToggled();
+            }}
+            size="md"
+          >
             Log Out
           </SecondaryButton>
         ) : (
-          <LinkButton to="/login" size="md">
+          <LinkButton onClick={setIsToggled} to="/login" size="md">
             Log in
           </LinkButton>
         )}

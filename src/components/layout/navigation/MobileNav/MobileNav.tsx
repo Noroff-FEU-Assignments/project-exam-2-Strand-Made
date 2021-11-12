@@ -59,15 +59,28 @@ const MobileNav = ({ isToggled, setIsToggled }: MobileNavProps) => {
                     Contact
                   </NavLinks>
                 </MobileNavItem>
+                {auth && (
+                  <MobileNavItem>
+                    <NavLinks onClick={setIsToggled} mobile to="/admin">
+                      Admin
+                    </NavLinks>
+                  </MobileNavItem>
+                )}
               </FlexContainer>
             </MobileNavList>
             <FlexContainer justifyContent="end">
               {auth ? (
-                <SecondaryButton onClick={() => setAuth(null)} size="md">
+                <SecondaryButton
+                  onClick={() => {
+                    setAuth(null);
+                    setIsToggled();
+                  }}
+                  size="md"
+                >
                   Log Out
                 </SecondaryButton>
               ) : (
-                <LinkButton to="/login" size="md">
+                <LinkButton onClick={setIsToggled} to="/login" size="sm">
                   Login
                 </LinkButton>
               )}
