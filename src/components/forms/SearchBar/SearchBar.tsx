@@ -27,9 +27,6 @@ const Flex = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  ${mediaQueries("sm")`
-flex-direction: row;
-`}
 `;
 
 const ButtonContainer = styled.div`
