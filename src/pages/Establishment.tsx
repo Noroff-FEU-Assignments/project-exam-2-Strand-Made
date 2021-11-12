@@ -1,10 +1,5 @@
 import styled from "styled-components";
-import {
-  MdOutlineKingBed,
-  MdOutlineWifi,
-  MdPinDrop,
-  MdClose,
-} from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,7 +10,6 @@ import IconContainer from "../components/IconsContainer/IconsContainer";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
 import Amenitites from "../components/establishment/Amenities/Amenitites";
 import Paragraph from "../components/Typography/Paragraph";
-import { PrimaryButton } from "../components/Button/Button";
 import useToggle from "../hooks/useToggle";
 import RelativeWrapper from "../components/layout/navigation/MobileNav/RelativeWrapper";
 import Image from "../components/layout/Image/Image";
@@ -26,6 +20,11 @@ import { borderRadius } from "../globalStyle/_variables";
 import OfferList from "../components/establishment/OfferList/OfferList";
 import Section from "../components/layout/Section/Section";
 import Grid from "../components/layout/utilities/Grid/Grid";
+import StayCalculator from "../components/establishment/StayCalculator/StayCalculator";
+import Aside from "../components/layout/Aside/Aside";
+import Switcher from "../components/layout/utilities/Switcher/Switcher";
+import Emphasize from "../components/Typography/Emphasize";
+import Stack from "../components/layout/Stack/Stack";
 
 export type EstablishmentType = {
   id: number;
@@ -64,6 +63,8 @@ const Establishment = () => {
   const { establishmentSlug } = params;
 
   const [isLoading, setIsLoading] = useState(true);
+  const [days, setDays] = useState(null);
+  const [guests, setGuests] = useState(null);
   const [establishment, setEstablishment] = useState<EstablishmentType | null>(
     null
   );
@@ -103,35 +104,39 @@ const Establishment = () => {
             </ImageContainer>
             <Spacer mt="1.5" />
             <Grid minWidth={400}>
-              <Section>
-                <Heading size="2xl">{establishment.title}</Heading>
-                <OfferList establishment={establishment} />
-                <Spacer mt="2" />
+              <Aside minWidth={60} asideWidth={400}>
+                <Section>
+                  <Heading size="2xl">{establishment.title}</Heading>
+                  <OfferList establishment={establishment} />
+                  <Spacer mt="2" />
 
-                <FlexContainer col gap="1.5rem">
-                  <Box>
-                    <PrimaryButton onClick={setToggle} size="md">
-                      Enquire
-                    </PrimaryButton>
-                  </Box>
-                  <Box>
-                    <Heading.H3 size="l">Description</Heading.H3>
-                    <Paragraph>{establishment.description}</Paragraph>
-                  </Box>
-                  <Box>
-                    <Heading.H4 size="l">Amenities</Heading.H4>
-                    <Amenitites amenities={establishment.amenities} />
-                  </Box>
-                  {/* more details */}
-                  {/* location  */}
-                  <Box>
-                    <Heading.H5 size="l">Reviews</Heading.H5>
-                  </Box>
-                </FlexContainer>
-              </Section>
-              <Section>
-                <Heading.H5 size="l">Calculate your Stay</Heading.H5>
-              </Section>
+                  <FlexContainer col gap="1.5rem">
+                    <Box>
+                      <Heading.H3 size="l">Description</Heading.H3>
+                      <Paragraph>{establishment.description}</Paragraph>
+                    </Box>
+                    <Box>
+                      <Heading.H4 size="l">Amenities</Heading.H4>
+                      <Amenitites amenities={establishment.amenities} />
+                    </Box>
+                    {/* more details */}
+                    {/* location  */}
+                    <Box>
+                      <Heading.H5 size="l">Reviews</Heading.H5>
+                    </Box>
+                  </FlexContainer>
+                </Section>
+                <Section>
+                  <StayCalculator
+                    setToggle={setToggle}
+                    guests={guests}
+                    setGuests={setGuests}
+                    days={days}
+                    setDays={setDays}
+                    price={establishment.price}
+                  />
+                </Section>
+              </Aside>
             </Grid>
             {toggle && (
               <Popover margin="0.5rem" position="fixed">
@@ -142,13 +147,36 @@ const Establishment = () => {
                 >
                   <Box>
                     <FlexContainer justifyContent="space-between">
-                      <Heading>Enquire</Heading>
+                      <Stack>
+                        <Heading.H4 size="2xl">Enquire</Heading.H4>
+                        <Heading.H5 size="l">
+                          Staying at {establishment.title}
+                        </Heading.H5>
+                      </Stack>
                       <button onClick={setToggle}>
                         <IconContainer>
                           <MdClose size="24" />
                         </IconContainer>
                       </button>
                     </FlexContainer>
+                  </Box>
+                  <Box>
+                    <Switcher>
+                      <Box>
+                        {guests && (
+                          <span>
+                            With<Emphasize> {guests}</Emphasize> guests
+                          </span>
+                        )}
+                      </Box>
+                      <Box>
+                        {days && (
+                          <span>
+                            For <Emphasize>{days}</Emphasize> days
+                          </span>
+                        )}
+                      </Box>
+                    </Switcher>
                   </Box>
                   <EnquireForm />
                 </Box>
