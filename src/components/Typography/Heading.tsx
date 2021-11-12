@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { HeroSection } from "../layout/Hero/Hero";
-import { fontSize, mediaQueries } from "../../utils/styleHelpers";
+import { fontSize } from "../../utils/styleHelpers";
 import { fontSizes } from "../../globalStyle/_variables";
 
 interface HeadingProps {
