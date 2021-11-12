@@ -9,7 +9,6 @@ const Login = () => {
   let navigate = useNavigate();
   const { auth } = useAuth();
   useEffect(() => {
-    console.log(auth);
     if (auth) {
       navigate("/");
     }
