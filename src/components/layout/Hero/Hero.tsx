@@ -4,7 +4,6 @@ import { mediaQueries } from "../../../utils/styleHelpers";
 import HeroContent from "./HeroContent";
 import hero from "../../../assets/hero.jpg";
 import Heading from "../../Typography/Heading";
-import Spacer from "../utilities/Spacer/Spacer";
 
 type HeroProps = {
   children: ReactNode;
