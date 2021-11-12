@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { EstablishmentType } from "../../../pages/Establishment";
 import { IconContainer } from "../../IconsContainer/IconsContainer";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
+import Stack from "../../layout/Stack/Stack";
 import Emphasize from "../../Typography/Emphasize";
 
 interface IStyledList {
@@ -18,6 +19,20 @@ const StyledOfferList = styled.ul`
 const OfferList = ({ establishment }: IStyledList) => {
   return (
     <StyledOfferList>
+      <li>
+        <FlexContainer gap="0.5rem" alignItems="center">
+          <IconContainer>
+            <MdPinDrop
+              color="var(--teal-6)"
+              aria-label="Distance to city center"
+              size={24}
+            />
+          </IconContainer>
+          <Emphasize>
+            {establishment.distance_city_centre_km} km to city center
+          </Emphasize>
+        </FlexContainer>
+      </li>
       <li>
         <FlexContainer gap="0.5rem" alignItems="center">
           <IconContainer>
@@ -40,20 +55,6 @@ const OfferList = ({ establishment }: IStyledList) => {
             />
           </IconContainer>
           <Emphasize>Free Wifi</Emphasize>
-        </FlexContainer>
-      </li>
-      <li>
-        <FlexContainer gap="0.5rem" alignItems="center">
-          <IconContainer>
-            <MdPinDrop
-              color="var(--teal-6)"
-              aria-label="Distance to city center"
-              size={24}
-            />
-          </IconContainer>
-          <Emphasize>
-            {establishment.distance_city_centre_km} km to city center
-          </Emphasize>
         </FlexContainer>
       </li>
     </StyledOfferList>
