@@ -4,7 +4,7 @@ const Label = styled.label`
   display: flex;
   color: var(--cool-gray-7);
   align-items: baseline;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 export default Label;
