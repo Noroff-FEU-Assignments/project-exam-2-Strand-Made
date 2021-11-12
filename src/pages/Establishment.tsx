@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { MdOutlineKingBed, MdOutlineWifi, MdPinDrop } from "react-icons/md";
+import {
+  MdOutlineKingBed,
+  MdOutlineWifi,
+  MdPinDrop,
+  MdClose,
+} from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,6 +14,16 @@ import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
 import IconContainer from "../components/IconsContainer/IconsContainer";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
 import Amenitites from "../components/establishment/Amenities/Amenitites";
+import { borderRadius } from "../globalStyle/_variables";
+import Emphasize from "../components/Typography/Emphasize";
+import Paragraph from "../components/Typography/Paragraph";
+import { PrimaryButton } from "../components/Button/Button";
+import useToggle from "../hooks/useToggle";
+import RelativeWrapper from "../components/layout/navigation/MobileNav/RelativeWrapper";
+import Modal from "../components/Modal/Modal";
+import Popover from "../components/layout/Popover/Popover";
+import EnquireForm from "../components/forms/EnquireForm/EnquireForm";
+import Box from "../components/layout/Box/Box";
 
 type EstablishmentType = {
   id: number;
@@ -19,6 +34,11 @@ type EstablishmentType = {
   image: {
     alternativeText: string;
     url: string;
+    formats: {
+      medium: {
+        url: string;
+      };
+    };
   };
   amenities: [
     {
@@ -33,7 +53,7 @@ type EstablishmentType = {
 };
 
 const ImageContainer = styled.div`
-  width: 100%;
+  max-width: 100%;
 `;
 const Image = styled.img`
   width: 100%;
@@ -43,17 +63,6 @@ const OfferList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-`;
-const Paragraph = styled.p`
-  max-width: 60ch;
-`;
-const Emphasize = styled.span`
-  font-weight: 600;
-  font-size: 1.1rem;
-`;
-
-const Box = styled.div`
-  border-bottom: 1px solid var(--cool-gray-1);
 `;
 
 const Establishment = () => {
@@ -65,6 +74,7 @@ const Establishment = () => {
   const [establishment, setEstablishment] = useState<EstablishmentType | null>(
     null
   );
+  const [toggle, setToggle] = useToggle(false);
   const [error, setError] = useState(false);
   useEffect(() => {
     const fetchEstablishment = async () => {
@@ -89,7 +99,7 @@ const Establishment = () => {
       {isLoading && <div>Loading...</div>}
       {error && <div>Error...</div>}
       {establishment ? (
-        <>
+        <RelativeWrapper>
           <ImageContainer>
             <Image src={`${baseUrl}${establishment.image.url}`} alt="" />
           </ImageContainer>
@@ -138,6 +148,11 @@ const Establishment = () => {
             <Spacer mt="2" />
             <FlexContainer col gap="1.5rem">
               <Box>
+                <PrimaryButton onClick={setToggle} size="md">
+                  Enquire
+                </PrimaryButton>
+              </Box>
+              <Box>
                 <Heading.H3 size="l">Description</Heading.H3>
                 <Paragraph>{establishment.description}</Paragraph>
               </Box>
@@ -148,8 +163,29 @@ const Establishment = () => {
               {/* more details */}
               {/* location  */}
             </FlexContainer>
+            {toggle && (
+              <Popover margin="0.5rem" position="fixed">
+                <Box
+                  padding="1rem"
+                  borderRadius
+                  background="var(--cool-gray-1)"
+                >
+                  <Box>
+                    <FlexContainer justifyContent="space-between">
+                      <Heading>Enquire</Heading>
+                      <button onClick={setToggle}>
+                        <IconContainer>
+                          <MdClose size="24" />
+                        </IconContainer>
+                      </button>
+                    </FlexContainer>
+                  </Box>
+                  <EnquireForm />
+                </Box>
+              </Popover>
+            )}
           </Container>
-        </>
+        </RelativeWrapper>
       ) : null}
     </>
   );

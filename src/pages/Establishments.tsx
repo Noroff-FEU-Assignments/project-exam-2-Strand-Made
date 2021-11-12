@@ -8,12 +8,18 @@ import useToggle from "../hooks/useToggle";
 import Heading from "../components/Typography/Heading";
 import Modal from "../components/Modal/Modal";
 import { SecondaryButton } from "../components/Button/Button";
+import Grid from "../components/layout/utilities/Grid/Grid";
 
 type EstablishmentType = {
   id: number;
   image: {
     alternativeText?: string;
     url: string;
+    formats: {
+      small: {
+        url: string;
+      };
+    };
   };
   price: number;
   slug: string;
@@ -56,12 +62,12 @@ const Establishments = () => {
         </Modal>
       ) : null}
       <Spacer mt="2" />
-      <FlexContainer col gap="2rem">
-        {loading && "Loading..."}
-        {error && "An error occured"}
+      {loading && "Loading..."}
+      {error && "An error occured"}
+      <Grid gap="1.5rem">
         {establishments.map((establishment: EstablishmentType) => {
           const { id, price, slug, title } = establishment;
-          const imgUrl = `${process.env.REACT_APP_BASE_URL}${establishment.image.url}`;
+          const imgUrl = `${process.env.REACT_APP_BASE_URL}${establishment.image.formats.small.url}`;
           return (
             <Card
               key={id}
@@ -72,7 +78,7 @@ const Establishments = () => {
             />
           );
         })}
-      </FlexContainer>
+      </Grid>
     </Container>
   );
 };
