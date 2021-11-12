@@ -5,6 +5,7 @@ import Heading from "../../Typography/Heading";
 import Label from "../Label/Label";
 import InputContainer from "../Input/InputContainer";
 import TextInput from "../Input/TextInput";
+import TextBox from "../Input/TextBox";
 
 const ContactBox = styled.div`
   background: var(--cool-gray-1);
@@ -17,13 +18,6 @@ const ContactBox = styled.div`
 
 const FormContainer = styled.div`
   max-width: 400px;
-`;
-const TextBox = styled.textarea`
-  width: 100%;
-  background: var(--cool-gray-1);
-  border: 1px solid var(--cool-gray-2);
-  border-radius: ${borderRadius.sm};
-  padding: 0.5rem;
 `;
 
 const Form = styled.form``;
