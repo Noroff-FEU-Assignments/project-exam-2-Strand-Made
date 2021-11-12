@@ -4,6 +4,7 @@ import { borderRadius } from "../../../globalStyle/_variables";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import Heading from "../../Typography/Heading";
 import Demphasize from "../../Typography/DeEmphasize";
+import Frame from "../../layout/utilities/Frame/Frame";
 
 interface EstablishmentPropTypes {
   img?: string;
@@ -14,7 +15,9 @@ interface EstablishmentPropTypes {
 }
 
 const EstablishmentCard = styled.div``;
-const CardLink = styled(Link)``;
+const CardLink = styled(Link)`
+  width: 100%;
+`;
 
 const Image = styled.img`
   border-radius: ${borderRadius.md};
@@ -26,11 +29,13 @@ const Card = ({ img, title, price, slug, id }: EstablishmentPropTypes) => {
     <EstablishmentCard>
       <div>
         <CardLink to={`${slug}`}>
-          <Image src={img} alt="Hello" />
+          <Frame>
+            <Image src={img} alt="Hello" />
+          </Frame>
         </CardLink>
       </div>
       <FlexContainer justifyContent="space-between" alignItems="center">
-        <Heading.H2 weight="400" size="xl">
+        <Heading.H2 weight="400" size="l">
           {title}
         </Heading.H2>
         <div>
