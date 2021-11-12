@@ -27,7 +27,7 @@ interface FlexProps {
     | "end"
     | "space-evenly";
   alignContent?: "start" | "center" | "space-between" | "space-around";
-  alignItems?: "stretch" | "center" | "start" | "end";
+  alignItems?: "stretch" | "center" | "start" | "end" | "baseline";
   wrap?: "wrap" | "wrap-reverse" | "nowrap";
   responsive?: "row" | "column";
   responsiveAlignItems?: "stretch" | "center" | "start" | "end";
