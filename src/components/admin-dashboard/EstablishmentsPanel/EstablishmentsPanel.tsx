@@ -45,7 +45,7 @@ const EstablishmentsPanel = () => {
       </EstablishmentsList>
       <Spacer mt="1" />
       <FlexContainer justifyContent="end">
-        <PrimaryButton>Create new</PrimaryButton>
+        <PrimaryButton size="md">Create new</PrimaryButton>
       </FlexContainer>
     </Box>
   );

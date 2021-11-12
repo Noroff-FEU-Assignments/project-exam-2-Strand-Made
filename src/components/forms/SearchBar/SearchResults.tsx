@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { MdApartment, MdHouseboat, MdHouse } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
@@ -33,11 +34,25 @@ interface ListProps {
     id: number;
     title: string;
     slug: string;
+    category: {
+      name: string;
+    };
   }[];
 }
 
 const SearchResultList = ({ establishments, searching }: ListProps) => {
   const [lengthCheck, setLengthCheck] = useState(false);
+  const iconCheck = (category) => {
+    if (category === "Hotels") {
+      return <MdApartment size="24" color="inherit" />;
+    }
+    if (category === "Cabin") {
+      return <MdHouseboat size="24" color="inherit" />;
+    }
+    if (category === "House") {
+      return <MdHouse size="24" color="inherit" />;
+    }
+  };
   useEffect(() => {
     if (establishments.length > 10) {
       setLengthCheck(true);
@@ -48,9 +63,10 @@ const SearchResultList = ({ establishments, searching }: ListProps) => {
     <List>
       <li>{searching && <div>Searching...</div>}</li>
       {establishments.map((establishment) => (
-        <ResultItem key={establishment.id}>
+        <ResultItem aria-roledescription="list-item" key={establishment.id}>
           <Link to={`/establishments/${establishment.slug}`}>
-            <span>{establishment.title}</span>
+            {iconCheck(establishment.category.name)}
+            <span aria-roledescription="">{establishment.title}</span>
           </Link>
         </ResultItem>
       ))}

@@ -14,18 +14,20 @@ import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
 import IconContainer from "../components/IconsContainer/IconsContainer";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
 import Amenitites from "../components/establishment/Amenities/Amenitites";
-import { borderRadius } from "../globalStyle/_variables";
-import Emphasize from "../components/Typography/Emphasize";
 import Paragraph from "../components/Typography/Paragraph";
 import { PrimaryButton } from "../components/Button/Button";
 import useToggle from "../hooks/useToggle";
 import RelativeWrapper from "../components/layout/navigation/MobileNav/RelativeWrapper";
-import Modal from "../components/Modal/Modal";
+import Image from "../components/layout/Image/Image";
 import Popover from "../components/layout/Popover/Popover";
 import EnquireForm from "../components/forms/EnquireForm/EnquireForm";
 import Box from "../components/layout/Box/Box";
+import { borderRadius } from "../globalStyle/_variables";
+import OfferList from "../components/establishment/OfferList/OfferList";
+import Section from "../components/layout/Section/Section";
+import Grid from "../components/layout/utilities/Grid/Grid";
 
-type EstablishmentType = {
+export type EstablishmentType = {
   id: number;
   title: string;
   price: number;
@@ -35,7 +37,7 @@ type EstablishmentType = {
     alternativeText: string;
     url: string;
     formats: {
-      medium: {
+      large: {
         url: string;
       };
     };
@@ -53,16 +55,7 @@ type EstablishmentType = {
 };
 
 const ImageContainer = styled.div`
-  max-width: 100%;
-`;
-const Image = styled.img`
-  width: 100%;
-`;
-
-const OfferList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  border-radius: ${borderRadius.md};
 `;
 
 const Establishment = () => {
@@ -100,69 +93,46 @@ const Establishment = () => {
       {error && <div>Error...</div>}
       {establishment ? (
         <RelativeWrapper>
-          <ImageContainer>
-            <Image src={`${baseUrl}${establishment.image.url}`} alt="" />
-          </ImageContainer>
           <Container>
-            <Heading size="2xl">{establishment.title}</Heading>
-            <OfferList>
-              <li>
-                <FlexContainer gap="0.5rem" alignItems="center">
-                  <IconContainer>
-                    <MdOutlineKingBed
-                      color="var(--teal-6)"
-                      aria-label="Bedrooms"
-                      size={24}
-                    />
-                  </IconContainer>
-                  <Emphasize>{establishment.bedrooms}</Emphasize>
+            <ImageContainer>
+              <Image
+                fullWidth
+                src={`${baseUrl}${establishment.image.formats.large.url}`}
+                alt=""
+              />
+            </ImageContainer>
+            <Spacer mt="1.5" />
+            <Grid minWidth={400}>
+              <Section>
+                <Heading size="2xl">{establishment.title}</Heading>
+                <OfferList establishment={establishment} />
+                <Spacer mt="2" />
+
+                <FlexContainer col gap="1.5rem">
+                  <Box>
+                    <PrimaryButton onClick={setToggle} size="md">
+                      Enquire
+                    </PrimaryButton>
+                  </Box>
+                  <Box>
+                    <Heading.H3 size="l">Description</Heading.H3>
+                    <Paragraph>{establishment.description}</Paragraph>
+                  </Box>
+                  <Box>
+                    <Heading.H4 size="l">Amenities</Heading.H4>
+                    <Amenitites amenities={establishment.amenities} />
+                  </Box>
+                  {/* more details */}
+                  {/* location  */}
+                  <Box>
+                    <Heading.H5 size="l">Reviews</Heading.H5>
+                  </Box>
                 </FlexContainer>
-              </li>
-              <li>
-                <FlexContainer gap="0.5rem" alignItems="center">
-                  <IconContainer>
-                    <MdOutlineWifi
-                      color="var(--teal-6)"
-                      aria-label="Wifi signal"
-                      size={24}
-                    />
-                  </IconContainer>
-                  <Emphasize>Free Wifi</Emphasize>
-                </FlexContainer>
-              </li>
-              <li>
-                <FlexContainer gap="0.5rem" alignItems="center">
-                  <IconContainer>
-                    <MdPinDrop
-                      color="var(--teal-6)"
-                      aria-label="Distance to city center"
-                      size={24}
-                    />
-                  </IconContainer>
-                  <Emphasize>
-                    {establishment.distance_city_centre_km} km to city center
-                  </Emphasize>
-                </FlexContainer>
-              </li>
-            </OfferList>
-            <Spacer mt="2" />
-            <FlexContainer col gap="1.5rem">
-              <Box>
-                <PrimaryButton onClick={setToggle} size="md">
-                  Enquire
-                </PrimaryButton>
-              </Box>
-              <Box>
-                <Heading.H3 size="l">Description</Heading.H3>
-                <Paragraph>{establishment.description}</Paragraph>
-              </Box>
-              <Box>
-                <Heading.H4 size="l">Amenities</Heading.H4>
-                <Amenitites amenities={establishment.amenities} />
-              </Box>
-              {/* more details */}
-              {/* location  */}
-            </FlexContainer>
+              </Section>
+              <Section>
+                <Heading.H5 size="l">Calculate your Stay</Heading.H5>
+              </Section>
+            </Grid>
             {toggle && (
               <Popover margin="0.5rem" position="fixed">
                 <Box

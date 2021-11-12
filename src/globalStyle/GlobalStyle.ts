@@ -53,6 +53,7 @@ body {
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
     line-height: 1.5;
     color: var(--cool-gray-9);
+    overflow-x: hidden;
 }
 
 a {
