@@ -6,6 +6,8 @@ import Label from "../Label/Label";
 import InputContainer from "../Input/InputContainer";
 import TextInput from "../Input/TextInput";
 import TextBox from "../Input/TextBox";
+import Stack from "../../layout/Stack/Stack";
+import Box from "../../layout/Box/Box";
 
 const ContactBox = styled.div`
   background: var(--cool-gray-1);
@@ -28,19 +30,23 @@ const ContactForm = () => {
       <Heading size="3xl">Contact us</Heading>
       <Form>
         <FormContainer>
-          <InputContainer>
-            <Label>Name</Label>
-            <TextInput type="text" />
-          </InputContainer>
-          <InputContainer>
-            <Label>Email</Label>
-            <TextInput type="text" />
-          </InputContainer>
-          <InputContainer>
-            <Label>Message</Label>
-            <TextBox />
-          </InputContainer>
-          <PrimaryButton>Submit</PrimaryButton>
+          <Stack space={0.5}>
+            <Box>
+              <Label>Name</Label>
+              <TextInput type="text" />
+            </Box>
+            <Box>
+              <Label>Email</Label>
+              <TextInput type="text" />
+            </Box>
+            <Box>
+              <Label>Message</Label>
+              <TextBox />
+            </Box>
+            <Box>
+              <PrimaryButton size="md">Submit</PrimaryButton>
+            </Box>
+          </Stack>
         </FormContainer>
       </Form>
     </ContactBox>
