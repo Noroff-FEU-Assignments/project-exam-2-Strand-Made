@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { borderRadius } from "../../../globalStyle/_variables";
 import { mediaQueries } from "../../../utils/styleHelpers";
 
 interface IImage {
