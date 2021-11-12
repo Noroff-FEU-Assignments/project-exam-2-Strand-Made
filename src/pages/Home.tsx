@@ -5,10 +5,10 @@ import SearchBar from "../components/forms/SearchBar/SearchBar";
 import Section from "../components/layout/Section/Section";
 import Container from "../components/layout/Container/Container";
 import SuggestionsCard from "../components/SuggestionsCard/SuggestionsCard";
-import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
 import Banner from "../components/Banner/Banner";
 import Heading from "../components/Typography/Heading";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
+import Grid from "../components/layout/utilities/Grid/Grid";
 
 type CategorySuggestion = {
   category_image: CategoryImage;
@@ -55,7 +55,7 @@ const Home = () => {
           <Heading.H2 weight="700" size="xl">
             Looking for something special?
           </Heading.H2>
-          <FlexContainer responsive="row" col gap="2rem">
+          <Grid>
             {isLoading && <div>Is loading</div>}
             {error && <div>{error}</div>}
             {category.map((suggestion: CategorySuggestion) => {
@@ -71,7 +71,7 @@ const Home = () => {
                 />
               );
             })}
-          </FlexContainer>
+          </Grid>
         </Section>
         <Spacer mb="6" />
         <Section>
