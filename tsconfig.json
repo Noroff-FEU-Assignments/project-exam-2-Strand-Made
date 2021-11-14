@@ -7,11 +7,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-<<<<<<< Updated upstream
-    "strict": true,
-=======
     "strict": false,
->>>>>>> Stashed changes
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
