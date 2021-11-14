@@ -41,6 +41,7 @@ export type EstablishmentType = {
       };
     };
   };
+<<<<<<< Updated upstream
   amenities: [
     {
       breakfast: boolean;
@@ -50,6 +51,15 @@ export type EstablishmentType = {
       cleaning: boolean;
     }
   ];
+=======
+  amenities: {
+    breakfast: boolean;
+    shower: boolean;
+    gym: boolean;
+    office: boolean;
+    cleaning: boolean;
+  };
+>>>>>>> Stashed changes
   description: string;
 };
 
@@ -148,8 +158,13 @@ const Establishment = () => {
                   <Box>
                     <FlexContainer justifyContent="space-between">
                       <Stack>
+<<<<<<< Updated upstream
                         <Heading.H4 size="2xl">Enquire</Heading.H4>
                         <Heading.H5 size="l">
+=======
+                        <Heading.H4 size="l">Enquire</Heading.H4>
+                        <Heading.H5 size="xl">
+>>>>>>> Stashed changes
                           Staying at {establishment.title}
                         </Heading.H5>
                       </Stack>
