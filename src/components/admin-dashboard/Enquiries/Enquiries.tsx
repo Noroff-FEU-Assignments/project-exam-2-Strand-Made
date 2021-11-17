@@ -3,6 +3,14 @@ import { mediaQueries } from "../../../utils/styleHelpers";
 import { borderRadius } from "../../../globalStyle/_variables";
 import Heading from "../../Typography/Heading";
 
+type TEnquiry = {
+  enquiry: {
+    Message: string;
+    Name: string;
+    Recieved: string;
+    email: string;
+  };
+};
 const Box = styled.div`
   ${mediaQueries("md")`
 width: 500px;
@@ -26,8 +34,8 @@ const EnquiryData = styled.div`
   font-weight: 600;
 `;
 
-const Enquiries = () => {
-  const date = Date();
+const Enquiries = ({ enquiry }: TEnquiry) => {
+  const date = new Date();
 
   return (
     <Box>
@@ -36,11 +44,11 @@ const Enquiries = () => {
         <GridContainer>
           <Panel>
             <Heading.H3 weight="400">From</Heading.H3>
-            <EnquiryData>Tom</EnquiryData>
+            <EnquiryData>{enquiry.Name}</EnquiryData>
           </Panel>
           <Panel>
             <Heading.H3 weight="400">Recieved</Heading.H3>
-            <EnquiryData>{date}</EnquiryData>
+            <EnquiryData>{date.toDateString()}</EnquiryData>
           </Panel>
           <Panel>
             <Heading.H3 weight="400">Establishment</Heading.H3>
