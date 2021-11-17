@@ -1,10 +1,15 @@
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { borderRadius } from "../../../globalStyle/_variables";
 import { mediaQueries } from "../../../utils/styleHelpers";
-import { PrimaryButton } from "../../Button/Button";
+import LinkButton from "../../Button/LinkButton";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import Spacer from "../../layout/utilities/Spacer/Spacer";
 import Heading from "../../Typography/Heading";
+
+type TEstablishmentPanel = {
+  children: ReactNode;
+};
 
 const Box = styled.div`
   display: flex;
@@ -23,29 +28,23 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Establishment = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-weight: 600;
-`;
 
-const EstablishmentsPanel = () => {
+const EstablishmentsPanel = ({ children }: TEstablishmentPanel) => {
   return (
     <Box>
       <Heading.H2>Establishments</Heading.H2>
-      <EstablishmentsList>
+      <EstablishmentsList aria-roledescription="list">
         <Header>
           <Heading.H3 weight="400">Name</Heading.H3>
           <Heading.H3 weight="400">Edit</Heading.H3>
         </Header>
-        <Establishment>
-          Royal Hotel
-          <a href="/">Edit</a>
-        </Establishment>
+        {children}
       </EstablishmentsList>
       <Spacer mt="1" />
       <FlexContainer justifyContent="end">
-        <PrimaryButton size="md">Create new</PrimaryButton>
+        <LinkButton to="create-establishment" size="md">
+          Create new
+        </LinkButton>
       </FlexContainer>
     </Box>
   );
