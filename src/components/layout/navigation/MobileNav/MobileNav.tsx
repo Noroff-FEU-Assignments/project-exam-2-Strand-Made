@@ -16,7 +16,7 @@ const MobileMenuContainer = styled.div<MobileNavProps>`
   position: absolute;
   z-index: 10;
   box-shadow: ${shadows.lg};
-  background: var(--cool-gray-1);
+  background: white;
   padding: 1.25rem;
   left: 0;
   width: 100%;
