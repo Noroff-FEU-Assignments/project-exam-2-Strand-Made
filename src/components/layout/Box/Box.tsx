@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";
-import { borderRadius } from "../../../globalStyle/_variables";
+import { borderRadius, shadows } from "../../../globalStyle/_variables";
 
 interface IBox {
   children: ReactNode;
@@ -19,12 +19,13 @@ interface IBox {
   borderRadiusB?: boolean;
   color?: string;
   background?: string;
+  shadow?: boolean;
 }
 
 const StyledBox = styled.div<IBox>`
   --padding: ${(props) => props.padding};
-  border-radius: ${(props) =>
-    props.borderRadius ? `${borderRadius.md}` : null};
+  border-radius: ${(props) => props.borderRadius && `${borderRadius.md}`};
+  box-shadow: ${(props) => props.shadow && `${shadows.sm}`};
   ${(props) => {
     return (
       props.borderRadiusT &&
@@ -56,6 +57,7 @@ const Box = ({
   borderRadiusB,
   color,
   background,
+  shadow,
 }: IBox) => {
   return (
     <StyledBox
@@ -65,6 +67,7 @@ const Box = ({
       borderRadiusB={borderRadiusB}
       color={color}
       background={background}
+      shadow={shadow}
     >
       {children}
     </StyledBox>
