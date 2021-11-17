@@ -32,6 +32,11 @@ export type EstablishmentType = {
   price: number;
   bedrooms: number;
   distance_city_centre_km: number;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+  };
   image: {
     alternativeText: string;
     url: string;
@@ -41,17 +46,6 @@ export type EstablishmentType = {
       };
     };
   };
-<<<<<<< Updated upstream
-  amenities: [
-    {
-      breakfast: boolean;
-      shower: boolean;
-      gym: boolean;
-      office: boolean;
-      cleaning: boolean;
-    }
-  ];
-=======
   amenities: {
     breakfast: boolean;
     shower: boolean;
@@ -59,7 +53,6 @@ export type EstablishmentType = {
     office: boolean;
     cleaning: boolean;
   };
->>>>>>> Stashed changes
   description: string;
 };
 
@@ -73,8 +66,10 @@ const Establishment = () => {
   const { establishmentSlug } = params;
 
   const [isLoading, setIsLoading] = useState(true);
-  const [days, setDays] = useState(null);
-  const [guests, setGuests] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(null);
+  const [stay, setStay] = useState(null);
+  const [guests, setGuests] = useState(0);
   const [establishment, setEstablishment] = useState<EstablishmentType | null>(
     null
   );
@@ -97,6 +92,14 @@ const Establishment = () => {
     };
     fetchEstablishment();
   }, [baseUrl, establishmentSlug]);
+
+  const dateOnChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    setStay(dates);
+    console.log(end);
+  };
 
   return (
     <>
@@ -141,8 +144,9 @@ const Establishment = () => {
                     setToggle={setToggle}
                     guests={guests}
                     setGuests={setGuests}
-                    days={days}
-                    setDays={setDays}
+                    startDate={startDate}
+                    handleDateSelect={dateOnChange}
+                    endDate={endDate}
                     price={establishment.price}
                   />
                 </Section>
@@ -158,13 +162,8 @@ const Establishment = () => {
                   <Box>
                     <FlexContainer justifyContent="space-between">
                       <Stack>
-<<<<<<< Updated upstream
-                        <Heading.H4 size="2xl">Enquire</Heading.H4>
-                        <Heading.H5 size="l">
-=======
                         <Heading.H4 size="l">Enquire</Heading.H4>
                         <Heading.H5 size="xl">
->>>>>>> Stashed changes
                           Staying at {establishment.title}
                         </Heading.H5>
                       </Stack>
@@ -175,25 +174,40 @@ const Establishment = () => {
                       </button>
                     </FlexContainer>
                   </Box>
-                  <Box>
-                    <Switcher>
-                      <Box>
+                  {guests || startDate ? (
+                    <Box>
+                      <Switcher>
                         {guests && (
-                          <span>
-                            With<Emphasize> {guests}</Emphasize> guests
-                          </span>
+                          <Box>
+                            <span>
+                              With<Emphasize> {guests}</Emphasize> guests
+                            </span>
+                          </Box>
                         )}
-                      </Box>
-                      <Box>
-                        {days && (
-                          <span>
-                            For <Emphasize>{days}</Emphasize> days
-                          </span>
+                        {startDate && (
+                          <Box>
+                            <span>
+                              From
+                              <Emphasize>{startDate.toDateString()}</Emphasize>
+                            </span>
+                          </Box>
                         )}
-                      </Box>
-                    </Switcher>
-                  </Box>
-                  <EnquireForm />
+                        {endDate && (
+                          <Box>
+                            <span>
+                              To
+                              <Emphasize>{endDate.toDateString()}</Emphasize>
+                            </span>
+                          </Box>
+                        )}
+                      </Switcher>
+                    </Box>
+                  ) : null}
+                  <EnquireForm
+                    host={establishment.user}
+                    guests={guests}
+                    dates={stay}
+                  />
                 </Box>
               </Popover>
             )}
