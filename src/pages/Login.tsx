@@ -10,7 +10,7 @@ const Login = () => {
   const { auth } = useAuth();
   useEffect(() => {
     if (auth) {
-      navigate("/");
+      navigate("/admin");
     }
   }, [auth]);
 
