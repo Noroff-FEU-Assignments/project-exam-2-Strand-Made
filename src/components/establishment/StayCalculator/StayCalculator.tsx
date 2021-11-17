@@ -1,12 +1,12 @@
-import { ReactNode, useState } from "react";
+import { start } from "repl";
 import styled from "styled-components";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
 import { PrimaryButton } from "../../Button/Button";
-import InputContainer from "../../forms/Input/InputContainer";
 import TextInput from "../../forms/Input/TextInput";
 import Label from "../../forms/Label/Label";
 import Box from "../../layout/Box/Box";
 import Stack from "../../layout/Stack/Stack";
+import StayDatePicker from "../../StayDatePicker/StayDatePicker";
 import Emphasize from "../../Typography/Emphasize";
 import Heading from "../../Typography/Heading";
 import Paragraph from "../../Typography/Paragraph";
@@ -14,12 +14,13 @@ import Paragraph from "../../Typography/Paragraph";
 interface IStayCalculator {
   price: number;
   setToggle: any;
+  handleDateSelect: any;
   guests: number;
   setGuests: any;
-  days: number;
-  setDays: any;
+  days?: number;
+  startDate: Date;
+  endDate: Date;
 }
-
 const Calculator = styled.div`
   box-shadow: ${shadows.md};
   border-bottom-left-radius: ${borderRadius.md};
@@ -29,10 +30,11 @@ const Calculator = styled.div`
 const StayCalculator = ({
   price,
   setToggle,
-  days,
-  setDays,
+  startDate,
+  endDate,
   guests,
   setGuests,
+  handleDateSelect,
 }: IStayCalculator) => {
   return (
     <Calculator>
@@ -60,12 +62,15 @@ const StayCalculator = ({
               />
             </Box>
             <Box padding={"0.5rem"}>
-              <Label>Days</Label>
-              <TextInput
-                onChange={(e) => setDays(e.target.value)}
-                value={days}
-                placeholder="How long are you staying?"
-                type="number"
+              <Label>Pick Date </Label>
+              <StayDatePicker
+                minDate={startDate}
+                placeholderText="Select Dates"
+                selected={startDate}
+                startDate={startDate}
+                endDate={endDate}
+                onChange={handleDateSelect}
+                selectsRange
               />
             </Box>
           </form>

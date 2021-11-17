@@ -9,6 +9,14 @@ import TextBox from "../Input/TextBox";
 import { PrimaryButton } from "../../Button/Button";
 import Message from "../../Message/Message";
 import Box from "../../layout/Box/Box";
+import axios from "axios";
+import { baseUrl } from "../../../api/baseUrl";
+
+interface IEnquireForm {
+  host: object;
+  dates: object;
+  guests: number;
+}
 
 const Form = styled.form`
   width: 350px;
@@ -22,7 +30,13 @@ const schema = yup.object({
   message: yup.string().required(),
 });
 
-const EnquireForm = () => {
+const EnquireForm = ({ host, dates, guests }: IEnquireForm) => {
+  console.log(host, dates, guests);
+  async function sendEnquire(data) {
+    const url = `${baseUrl}/enquiries`;
+    const res = axios.post(url, {});
+  }
+
   const {
     register,
     handleSubmit,
