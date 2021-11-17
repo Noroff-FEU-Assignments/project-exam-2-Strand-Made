@@ -12,6 +12,7 @@ import Search from "./pages/Search";
 import Spacer from "./components/layout/utilities/Spacer/Spacer";
 import Footer from "./components/layout/Footer/Footer";
 import Establishment from "./pages/Establishment";
+import CreateEstablishment from "./pages/CreateEstablishment";
 
 function App() {
   return (
@@ -32,7 +33,12 @@ function App() {
 
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="admin" element={<Admin />} />
+          <Route
+            path="/admin/create-establishment"
+            element={<CreateEstablishment />}
+          />
+
           <Route path="*" element={<main>This page doesn't exist</main>} />
         </Routes>
       </RelativeWrapper>
