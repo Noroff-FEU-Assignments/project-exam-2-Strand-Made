@@ -54,18 +54,16 @@ body {
     line-height: 1.5;
     color: var(--cool-gray-9);
     overflow-x: hidden;
+    background: var(--cool-gray-1);
 }
 
 a {
     text-decoration: none;
     color: var(--blue-5);
 }
-::placeholder, input, textarea {
+::placeholder, input, textarea, fieldset, select, option {
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
-<<<<<<< Updated upstream
-=======
     font-size: inherit;
->>>>>>> Stashed changes
 }
 li {
     list-style: none;
@@ -74,12 +72,9 @@ h1 {
     line-height: 3rem;
     
 }
-<<<<<<< Updated upstream
-=======
 h1, h2, h3, h4, h5, h6, p {
     max-width: 60ch;
 }
->>>>>>> Stashed changes
 button {
     outline: none;
     border: none;
@@ -87,6 +82,22 @@ button {
     background: none;
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif; 
 }
+
+.stay-date-calendar {
+    font-family: inherit;
+    color: var(--cool-gray-9);
+    background: var(--teal-1);
+    font-size: 0.93rem;
+    
+  }
+  .react-datepicker__header {
+      background: inherit;
+      border: none;
+  }
+  
+  .react-datepicker__triangle {
+      display: none;
+  }
 
 
 `;
