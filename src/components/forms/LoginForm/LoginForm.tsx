@@ -66,14 +66,18 @@ const LoginForm = () => {
       })
       .then((res) => {
         const { jwt } = res.data;
-        const { email } = res.data.user;
+        const { email, id, username, confirmed, role } = res.data.user;
 
         const userType = res.data.user.role.type;
         const user = {
           token: jwt,
           userinfo: {
-            type: userType,
+            id,
+            username,
             email,
+            type: userType,
+            confirmed,
+            role,
           },
         };
         setAuth(user);

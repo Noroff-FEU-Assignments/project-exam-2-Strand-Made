@@ -4,8 +4,12 @@ import useLocalStorage from "../hooks/useLocalStorage";
 type TState = {
   token?: string;
   userinfo?: {
+    id: number;
+    username: string;
     email: string;
     status: string;
+    confirmed: boolean;
+    role: number;
   };
 };
 type TAuthProvider = {
