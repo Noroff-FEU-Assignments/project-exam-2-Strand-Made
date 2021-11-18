@@ -59,17 +59,6 @@ const Fieldset = styled.fieldset`
 const Checkbox = styled.input`
   padding: 0.5rem;
 `;
-const FileInput = styled.input`
-  &::file-selector-button {
-    color: var(--cool-gray-9);
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--blue-6);
-    border-radius: ${borderRadius.md};
-    &:hover {
-      cursor: pointer;
-    }
-  }
-`;
 
 const schema = yup.object({
   establishmentName: yup
@@ -78,43 +67,101 @@ const schema = yup.object({
     .required("Please name your establishment"),
   category: yup.string().required("Please choose a category"),
   slug: yup.string(),
+  amenitites: yup.object({
+    shower: yup.bool(),
+    office: yup.bool(),
+    gym: yup.bool(),
+    cleaning: yup.bool(),
+    breakfast: yup.bool(),
+  }),
   price: yup
     .number()
     .min(5, "Price has to be higher than 5")
     .required("Please include a price"),
-  amenitites: yup.object(),
   bedrooms: yup.number().min(1).required("Please include how many bedrooms"),
   distanceToCentre: yup.number().required(),
   establishmentDescription: yup.string().required("An description is required"),
-  establishmentImage: yup
-    .mixed()
-    .required("Please include an image for your establishment"),
+  file: yup.object(),
 });
 
 const CreateEstablishmentForm = () => {
   const { auth } = useAuth();
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [category, setCategory] = useState("");
 
-  async function createEstablishment(file, data) {
-    const url = `${baseUrl}/establishments`;
-    let formData = new FormData();
-    formData.append("files.establishmentImg", file);
-    formData.append("data", JSON.stringify(data));
-    try {
-      const res = await axios({
-        method: "POST",
-        url: url,
-        headers: {
-          Authorization: `Bearer ${auth.token} `,
-        },
-        data: formData,
-      });
-      const { data } = res;
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+  const [breakfast, setBreakfast] = useState(false);
+  const [office, setOffice] = useState(false);
+  const [gym, setGym] = useState(false);
+  const [cleaning, setCleaning] = useState(false);
+  const [shower, setShower] = useState(false);
+
+  const [files, setFiles] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  const handleChange = (e, setter) => {
+    setter(e.target.value);
+  };
+  const handleInputChange = (e) => {
+    setFiles(e.target.files[0]);
+  };
+  const handleCheckbox = (state, setState) => {
+    setState(!state);
+  };
+
+  const handleSelect = (e) => {
+    setCategory(e.target.value);
+  };
+  const categoryId = (category) => {
+    if (category === "hotels") {
+      return 1;
     }
+    if (category === "cabin") {
+      return 2;
+    }
+    if (category === "house") {
+      return 3;
+    }
+  };
+  async function createEstablishment(data) {
+    const url = `${baseUrl}/establishments`;
+    setSuccess(false);
+    setError(null);
+    const res = await axios({
+      method: "POST",
+      url: url,
+      headers: {
+        Authorization: `Bearer ${auth.token} `,
+      },
+      data: data,
+    })
+      .then((res) => {
+        console.log(res.data);
+        const imageUpload = async (res) => {
+          const uploadUrl = `${baseUrl}/upload`;
+          const formData = new FormData();
+          const id = res.data.id;
+          formData.append("files", files);
+          formData.append("refId", id);
+          formData.append("ref", "establishments");
+          formData.append("field", "image");
+
+          const imageRes = await axios({
+            method: "POST",
+            url: uploadUrl,
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+            data: formData,
+          });
+          setSuccess(true);
+        };
+        imageUpload(res);
+      })
+      .catch((err) => {
+        setError(err.toString());
+      });
   }
 
   const {
@@ -125,24 +172,35 @@ const CreateEstablishmentForm = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
-    console.log(data.establishmentImage[0]);
     const formdata = {
-      amenities: data.amenities,
+      amenities: {
+        id: data.id,
+        shower: shower,
+        cleaning: cleaning,
+        office: office,
+        gym: gym,
+        breakfast: breakfast,
+      },
       bedrooms: data.bedrooms,
-      category: data.category,
-      distanceToCentre: data.distanceToCentre,
-      establishmentDescription: data.establishmentDescription,
-      establishmentName: data.establishmentName,
+      category: {
+        id: categoryId(category),
+        name: category,
+      },
+      distance_city_centre_km: data.distanceToCentre,
+      description: data.establishmentDescription,
+      title: data.establishmentName,
       price: data.price,
       slug: data.slug,
+      user: {
+        id: auth.userinfo.id,
+        username: auth.userinfo.username,
+        email: auth.userinfo.email,
+      },
+      short_description: data.establishmentDescription.slice(0, 5),
     };
-    const file = data.establishmentImage[0];
-    createEstablishment(file, formdata);
+    createEstablishment(formdata);
   };
 
-  const handleChange = (e, setter) => {
-    setter(e.target.value);
-  };
   useEffect(() => {
     const createSlug = (name) => {
       if (name.length < 0) {
@@ -157,6 +215,8 @@ const CreateEstablishmentForm = () => {
   return (
     <Box background="white" borderRadius padding="3rem" shadow>
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {error && <Message.Error>{error}</Message.Error>}
+        {success && <Message.Success> Successfully created! </Message.Success>}
         <Stack>
           <Label htmlFor="establishmentName"> Establishment Name </Label>
           <PriceInput
@@ -172,9 +232,13 @@ const CreateEstablishmentForm = () => {
         </Stack>
         <Stack>
           <Label htmlFor="category">Category</Label>
-          <Select name="category" {...register("category")}>
+          <Select
+            name="category"
+            {...register("category")}
+            onChange={(e) => handleSelect(e)}
+          >
             <option value="">Choose category</option>
-            <option value="hotel">Hotel</option>
+            <option value="hotels">Hotel</option>
             <option value="cabin">Cabin</option>
             <option value="house">House</option>
           </Select>
@@ -219,8 +283,10 @@ const CreateEstablishmentForm = () => {
                 <Checkbox
                   type="checkbox"
                   name="shower"
+                  {...register("shower")}
                   value="shower"
-                  {...register("amenities")}
+                  checked={shower}
+                  onChange={(e) => handleCheckbox(shower, setShower)}
                 />
               </FlexContainer>
               <FlexContainer col alignItems="center">
@@ -228,8 +294,10 @@ const CreateEstablishmentForm = () => {
                 <Checkbox
                   type="checkbox"
                   name="cleaning"
-                  value="coding"
-                  {...register("amenities")}
+                  {...register("cleaning")}
+                  value="cleaning"
+                  checked={cleaning}
+                  onChange={(e) => handleCheckbox(cleaning, setCleaning)}
                 />
               </FlexContainer>
               <FlexContainer col alignItems="center">
@@ -237,8 +305,10 @@ const CreateEstablishmentForm = () => {
                 <Checkbox
                   type="checkbox"
                   name="office"
+                  {...register("office")}
                   value="office"
-                  {...register("amenities")}
+                  checked={office}
+                  onChange={(e) => handleCheckbox(office, setOffice)}
                 />
               </FlexContainer>
               <FlexContainer col alignItems="center">
@@ -246,8 +316,10 @@ const CreateEstablishmentForm = () => {
                 <Checkbox
                   type="checkbox"
                   name="gym"
+                  {...register("gym")}
                   value="gym"
-                  {...register("amenities")}
+                  checked={gym}
+                  onChange={(e) => handleCheckbox(gym, setGym)}
                 />
               </FlexContainer>
               <FlexContainer col alignItems="center">
@@ -255,8 +327,10 @@ const CreateEstablishmentForm = () => {
                 <Checkbox
                   type="checkbox"
                   name="breakfast"
+                  {...register("breakfast")}
                   value="breakfast"
-                  {...register("amenities")}
+                  defaultChecked={breakfast}
+                  onChange={(e) => handleCheckbox(breakfast, setBreakfast)}
                 />
               </FlexContainer>
             </Switcher>
@@ -296,18 +370,14 @@ const CreateEstablishmentForm = () => {
           )}
         </Stack>
         <Stack>
-          <Label htmlFor="establishmentImage">
-            Upload Image (Accepts ,jpg files)
-          </Label>
-          <FileInput
-            name="establishmentImage"
-            accept="image/jpg"
+          <Label htmlFor="files">Upload Image (Accepts ,jpg files)</Label>
+          <input
             type="file"
-            {...register("establishmentImage")}
+            name="files"
+            accept="image/*"
+            onChange={handleInputChange}
           />
-          {errors.establishmentImage && (
-            <Message.Error>{errors.establishmentImage.message}</Message.Error>
-          )}
+          {errors.file && <Message.Error>{errors.file.message}</Message.Error>}
         </Stack>
 
         <PrimaryButton type="submit" role="submit" full size="md">
