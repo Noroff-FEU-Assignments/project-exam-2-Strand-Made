@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { mediaQueries } from "../../utils/styleHelpers";
 import { shadows } from "../../globalStyle/_variables";
 import Header from "../layout/Header/Header";
+import { ReactNode } from "react";
 
 export interface ButtonProps {
-  children: string;
+  children: ReactNode | string;
   full?: boolean;
   size?: keyof typeof buttonSizes;
   href?: string;

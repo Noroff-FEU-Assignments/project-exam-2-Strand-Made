@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Stack from "../../layout/Stack/Stack";
-import TextInput from "../Input/TextInput";
+import Input from "../Input/Input";
 import Label from "../Label/Label";
 import TextBox from "../Input/TextBox";
 import { PrimaryButton } from "../../Button/Button";
@@ -11,11 +11,14 @@ import Message from "../../Message/Message";
 import Box from "../../layout/Box/Box";
 import axios from "axios";
 import { baseUrl } from "../../../api/baseUrl";
+import { TUser } from "../../../pages/Establishment";
 
 interface IEnquireForm {
-  host: object;
-  dates: object;
+  host: TUser;
+  startDate: Date;
+  endDate: Date;
   guests: number;
+  title: string;
 }
 
 const Form = styled.form`
@@ -30,11 +33,30 @@ const schema = yup.object({
   message: yup.string().required(),
 });
 
-const EnquireForm = ({ host, dates, guests }: IEnquireForm) => {
-  console.log(host, dates, guests);
+const EnquireForm = ({
+  host,
+  startDate,
+  endDate,
+  guests,
+  title,
+}: IEnquireForm) => {
+  console.log(startDate);
+  console.log(endDate);
+  console.log(host);
+
   async function sendEnquire(data) {
     const url = `${baseUrl}/enquiries`;
-    const res = axios.post(url, {});
+    try {
+      const res = await axios({
+        method: "POST",
+        url: url,
+        data,
+      });
+      const enqRes = res.data;
+      console.log(enqRes);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const {
@@ -44,13 +66,28 @@ const EnquireForm = ({ host, dates, guests }: IEnquireForm) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const formData = {
+      Name: data.firstName,
+      Message: data.message,
+      email: data.email,
+      establishment_name: title,
+      users_permissions_user: {
+        id: host.id,
+        email: host.email,
+      },
+      to_date: startDate,
+      from_date: endDate,
+      guests: guests,
+    };
+    sendEnquire(formData);
+  };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
         <Box>
           <Label htmlFor="firstName"> Your name </Label>
-          <TextInput
+          <Input
             aria-invalid={errors.firstName ? "true" : "false"}
             type="text"
             id="firstName"
@@ -63,7 +100,7 @@ const EnquireForm = ({ host, dates, guests }: IEnquireForm) => {
         </Box>
         <Box>
           <Label htmlFor="email"> Your email </Label>
-          <TextInput
+          <Input
             type="email"
             placeholder="Email"
             aria-invalid={errors.email ? "true" : "false"}

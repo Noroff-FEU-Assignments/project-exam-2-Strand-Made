@@ -2,7 +2,7 @@ import { start } from "repl";
 import styled from "styled-components";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
 import { PrimaryButton } from "../../Button/Button";
-import TextInput from "../../forms/Input/TextInput";
+import Input from "../../forms/Input/Input";
 import Label from "../../forms/Label/Label";
 import Box from "../../layout/Box/Box";
 import Stack from "../../layout/Stack/Stack";
@@ -54,7 +54,7 @@ const StayCalculator = ({
           <form>
             <Box padding={"0.5rem"}>
               <Label> Guests </Label>
-              <TextInput
+              <Input
                 onChange={(e) => setGuests(e.target.value)}
                 placeholder="How many guests?"
                 value={guests}
@@ -70,6 +70,7 @@ const StayCalculator = ({
                 startDate={startDate}
                 endDate={endDate}
                 onChange={handleDateSelect}
+                dateFormat="dd/MM/yyyy"
                 selectsRange
               />
             </Box>

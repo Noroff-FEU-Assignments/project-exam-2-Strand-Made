@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { borderRadius } from "../../globalStyle/_variables";
 import { mediaQueries } from "../../utils/styleHelpers";
@@ -7,6 +8,7 @@ interface SuggestionProps {
   title: string;
   img: string;
   imgDesc: string;
+  slug: string;
 }
 
 const SuggestionContainer = styled.article`
@@ -23,14 +25,17 @@ const Image = styled.img`
   `}
 `;
 
-const SuggestionsCard = ({ title, img, imgDesc }: SuggestionProps) => {
+const SuggestionsCard = ({ title, img, imgDesc, slug }: SuggestionProps) => {
+  const link = `/establishments?Slug=${slug}`;
   return (
-    <SuggestionContainer>
-      <ImageContainer>
-        <Image width="300" src={img} alt={imgDesc} />
-      </ImageContainer>
-      <Heading.H3 size="l">{title}</Heading.H3>
-    </SuggestionContainer>
+    <Link to={link}>
+      <SuggestionContainer>
+        <ImageContainer>
+          <Image width="300" src={img} alt={imgDesc} />
+        </ImageContainer>
+        <Heading.H3 size="l">{title}</Heading.H3>
+      </SuggestionContainer>
+    </Link>
   );
 };
 

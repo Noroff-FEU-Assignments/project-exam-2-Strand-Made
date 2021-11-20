@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Heading from "../../Typography/Heading";
 import { Link } from "react-router-dom";
+import Box from "../../layout/Box/Box";
 
 interface IEstablishmentElement {
   name: string;
@@ -15,12 +16,12 @@ const Establishment = styled.div`
 
 const EstablishmentElement = ({ name, slug }: IEstablishmentElement) => {
   return (
-    <div>
+    <Box padding="0.5rem">
       <Establishment>
         <Heading.H4>{name}</Heading.H4>
         <Link to={`/establishments/${slug}`}>View</Link>
       </Establishment>
-    </div>
+    </Box>
   );
 };
 

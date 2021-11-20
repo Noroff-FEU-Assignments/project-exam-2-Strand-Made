@@ -10,6 +10,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import Container from "../Container/Container";
 import LinkButton from "../../Button/LinkButton";
 import { SecondaryButton } from "../../Button/Button";
+import { useNavigate } from "react-router";
 
 const Nav = styled.nav`
   display: flex;
@@ -34,6 +35,7 @@ const ToggleMenuBtn = styled.button`
 
 const Navbar = () => {
   const [isToggled, setIsToggled] = useToggle();
+  let navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   return (
     <Container>
@@ -69,6 +71,7 @@ const Navbar = () => {
             onClick={() => {
               setAuth(null);
               setIsToggled();
+              navigate("/");
             }}
             size="md"
           >

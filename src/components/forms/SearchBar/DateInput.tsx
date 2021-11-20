@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { HiOutlineCalendar } from "react-icons/hi";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
-import TextInput from "../Input/TextInput";
+import Input from "../Input/Input";
 import Label from "../Label/Label";
 import InputContainer from "../Input/InputContainer";
 
@@ -16,14 +16,14 @@ const DateInput = () => {
             <HiOutlineCalendar color="var(--cool-gray-6)" size={25} />
             <span>Check In</span>
           </Label>
-          <TextInput placeholder="30 October" />
+          <Input placeholder="30 October" />
         </FlexContainer>
         <FlexContainer col>
           <Label>
             <HiOutlineCalendar color="var(--cool-gray-6)" size={25} />
             <span>Check In</span>
           </Label>
-          <TextInput placeholder="30 October" />
+          <Input placeholder="30 October" />
         </FlexContainer>
       </FlexContainer>
     </DateInputContainer>

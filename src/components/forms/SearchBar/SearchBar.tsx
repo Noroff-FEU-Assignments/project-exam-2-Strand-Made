@@ -6,11 +6,10 @@ import { borderRadius, shadows } from "../../../globalStyle/_variables";
 import useDebounce from "../../../hooks/useDebounce";
 import InputContainer from "../Input/InputContainer";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
-import TextInput from "../Input/TextInput";
+import TextInput from "../Input/Input";
 import Label from "../Label/Label";
 import { PrimaryButton } from "../../Button/Button";
 import SearchResultList from "./SearchResults";
-import { mediaQueries } from "../../../utils/styleHelpers";
 
 const SearchHotel = styled.form`
   position: relative;

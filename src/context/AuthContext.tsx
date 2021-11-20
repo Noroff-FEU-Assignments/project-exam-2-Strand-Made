@@ -9,6 +9,7 @@ type TState = {
     email: string;
     status: string;
     confirmed: boolean;
+    type: string;
     role: number;
   };
 };

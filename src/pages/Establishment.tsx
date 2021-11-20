@@ -25,6 +25,14 @@ import Aside from "../components/layout/Aside/Aside";
 import Switcher from "../components/layout/utilities/Switcher/Switcher";
 import Emphasize from "../components/Typography/Emphasize";
 import Stack from "../components/layout/Stack/Stack";
+import SkeletonLoader from "../components/layout/SkeleteonLoader/SkeletonLoader";
+import Main from "../components/layout/Main/Main";
+
+export type TUser = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 export type EstablishmentType = {
   id: number;
@@ -32,11 +40,7 @@ export type EstablishmentType = {
   price: number;
   bedrooms: number;
   distance_city_centre_km: number;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  };
+  user: TUser;
   image: {
     alternativeText: string;
     url: string;
@@ -83,6 +87,7 @@ const Establishment = () => {
           `${baseUrl}/establishments?slug=${establishmentSlug}`
         );
         const data = res.data[0];
+
         setEstablishment(data);
       } catch (error) {
         setError(true);
@@ -91,7 +96,7 @@ const Establishment = () => {
       }
     };
     fetchEstablishment();
-  }, [baseUrl, establishmentSlug]);
+  }, [baseUrl, establishmentSlug, setEstablishment]);
 
   const dateOnChange = (dates) => {
     const [start, end] = dates;
@@ -100,18 +105,19 @@ const Establishment = () => {
     setStay(dates);
     console.log(end);
   };
+  const host = establishment?.user;
+  const establishmentTitle = establishment?.title;
 
   return (
-    <>
-      {isLoading && <div>Loading...</div>}
+    <Main>
       {error && <div>Error...</div>}
-      {establishment ? (
+      {establishment && (
         <RelativeWrapper>
           <Container>
             <ImageContainer>
               <Image
                 fullWidth
-                src={`${baseUrl}${establishment.image.formats.large.url}`}
+                src={`${baseUrl}${establishment?.image.formats.large.url}`}
                 alt=""
               />
             </ImageContainer>
@@ -204,17 +210,19 @@ const Establishment = () => {
                     </Box>
                   ) : null}
                   <EnquireForm
-                    host={establishment.user}
+                    host={host}
                     guests={guests}
-                    dates={stay}
+                    startDate={startDate}
+                    endDate={endDate}
+                    title={establishmentTitle}
                   />
                 </Box>
               </Popover>
             )}
           </Container>
         </RelativeWrapper>
-      ) : null}
-    </>
+      )}
+    </Main>
   );
 };
 

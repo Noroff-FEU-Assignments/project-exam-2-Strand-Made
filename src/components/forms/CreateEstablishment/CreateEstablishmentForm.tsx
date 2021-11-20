@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled from "styled-components";
-import { borderRadius } from "../../../globalStyle/_variables";
 import { PrimaryButton } from "../../Button/Button";
 import Box from "../../layout/Box/Box";
 import Stack from "../../layout/Stack/Stack";
@@ -13,49 +12,13 @@ import Paragraph from "../../Typography/Paragraph";
 import TextBox from "../Input/TextBox";
 import Label from "../Label/Label";
 import Message from "../../Message/Message";
-import axios from "axios";
-import { baseUrl } from "../../../api/baseUrl";
-import { useAuth } from "../../../context/AuthContext";
+import Fieldset from "../Fieldset/Fieldset";
+import DisabledInput from "../Input/DisabledInput";
+import Select from "../Select/Select";
+import Input from "../Input/Input";
 
 const Form = styled.form``;
 
-const DisabledInput = styled.input`
-  border: 1px solid var(--cool-gray-2);
-  padding: 0.5rem;
-  background: white;
-  border-radius: ${borderRadius.md};
-  :hover {
-    cursor: not-allowed;
-  }
-`;
-const PriceInput = styled.input`
-  border: 1px solid var(--cool-gray-2);
-  padding: 0.5rem;
-  background: white;
-  border-radius: ${borderRadius.md};
-  outline: none;
-  &:focus {
-    border: 1px solid var(--cool-gray-3);
-  }
-`;
-
-const Select = styled.select`
-  border: 1px solid var(--cool-gray-2);
-  padding: 0.5rem;
-  background: white;
-  border-radius: ${borderRadius.md};
-  outline: none;
-  &:focus {
-    border: 1px solid var(--cool-gray-3);
-  }
-`;
-const Fieldset = styled.fieldset`
-  border: none;
-  legend {
-    font-size: inherit;
-    font-weight: 600;
-  }
-`;
 const Checkbox = styled.input`
   padding: 0.5rem;
 `;
@@ -84,8 +47,13 @@ const schema = yup.object({
   file: yup.object(),
 });
 
-const CreateEstablishmentForm = () => {
-  const { auth } = useAuth();
+const CreateEstablishmentForm = ({
+  createEstablishment,
+  success,
+  error,
+  setFiles,
+  auth,
+}) => {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState("");
@@ -95,10 +63,6 @@ const CreateEstablishmentForm = () => {
   const [gym, setGym] = useState(false);
   const [cleaning, setCleaning] = useState(false);
   const [shower, setShower] = useState(false);
-
-  const [files, setFiles] = useState(null);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
 
   const handleChange = (e, setter) => {
     setter(e.target.value);
@@ -124,45 +88,6 @@ const CreateEstablishmentForm = () => {
       return 3;
     }
   };
-  async function createEstablishment(data) {
-    const url = `${baseUrl}/establishments`;
-    setSuccess(false);
-    setError(null);
-    const res = await axios({
-      method: "POST",
-      url: url,
-      headers: {
-        Authorization: `Bearer ${auth.token} `,
-      },
-      data: data,
-    })
-      .then((res) => {
-        console.log(res.data);
-        const imageUpload = async (res) => {
-          const uploadUrl = `${baseUrl}/upload`;
-          const formData = new FormData();
-          const id = res.data.id;
-          formData.append("files", files);
-          formData.append("refId", id);
-          formData.append("ref", "establishments");
-          formData.append("field", "image");
-
-          const imageRes = await axios({
-            method: "POST",
-            url: uploadUrl,
-            headers: {
-              Authorization: `Bearer ${auth.token}`,
-            },
-            data: formData,
-          });
-          setSuccess(true);
-        };
-        imageUpload(res);
-      })
-      .catch((err) => {
-        setError(err.toString());
-      });
-  }
 
   const {
     register,
@@ -219,7 +144,7 @@ const CreateEstablishmentForm = () => {
         {success && <Message.Success> Successfully created! </Message.Success>}
         <Stack>
           <Label htmlFor="establishmentName"> Establishment Name </Label>
-          <PriceInput
+          <Input
             value={name}
             type="text"
             name="establishmentName"
@@ -263,7 +188,7 @@ const CreateEstablishmentForm = () => {
         </Stack>
         <Stack>
           <Label htmlFor="price">Price</Label>
-          <PriceInput
+          <Input
             name="price"
             placeholder="$0"
             type="number"
@@ -341,14 +266,14 @@ const CreateEstablishmentForm = () => {
         </Stack>
         <Stack>
           <Label htmlFor="bedrooms">Bedrooms</Label>
-          <PriceInput type="number" name="bedrooms" {...register("bedrooms")} />
+          <Input type="number" name="bedrooms" {...register("bedrooms")} />
           {errors.bedrooms && (
             <Message.Error>{errors.bedrooms.message}</Message.Error>
           )}
           <Label htmlFor="distance-to-city-centre">
             Distance to city centre
           </Label>
-          <PriceInput
+          <Input
             name="distance-to-city-centre"
             type="number"
             {...register("distanceToCentre")}

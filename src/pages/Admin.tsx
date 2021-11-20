@@ -10,6 +10,7 @@ import Emphasize from "../components/Typography/Emphasize";
 import axios from "axios";
 import { baseUrl } from "../api/baseUrl";
 import EstablishmentElement from "../components/admin-dashboard/EstablishmentsPanel/EstablishmentElement";
+import Box from "../components/layout/Box/Box";
 
 const Admin = () => {
   let navigate = useNavigate();
@@ -18,9 +19,14 @@ const Admin = () => {
   const [establishments, setEstablishments] = useState([]);
 
   const user = auth?.userinfo?.email;
+  const userType = auth.userinfo.type;
+
   useEffect(() => {
     if (!auth) {
       navigate("/login");
+    }
+    if (userType === "super") {
+      navigate("/super");
     }
   });
 
@@ -35,6 +41,7 @@ const Admin = () => {
           },
         });
         const { data } = res;
+
         const userEnquiries = data.filter((enquiry) => {
           if (enquiry.users_permissions_user.email === user) {
             return enquiry;
@@ -77,10 +84,17 @@ const Admin = () => {
           Welcome <Emphasize>{user}</Emphasize>
         </span>
         <Switcher space={2} threshold={300} limit={150}>
-          {enquiries.map((enquiry) => (
-            <Enquiries key={enquiry.id} enquiry={enquiry} />
-          ))}
+          <Box>
+            <Heading.H2>Enquiries</Heading.H2>
 
+            {enquiries.length > 0 ? (
+              enquiries.map((enquiry) => (
+                <Enquiries key={enquiry.id} enquiry={enquiry} />
+              ))
+            ) : (
+              <p>You have no enquiries at this moment</p>
+            )}
+          </Box>
           <EstablishmentsPanel>
             {establishments.map((establishment) => (
               <EstablishmentElement

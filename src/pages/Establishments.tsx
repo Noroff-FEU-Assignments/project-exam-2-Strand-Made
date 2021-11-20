@@ -9,6 +9,8 @@ import Heading from "../components/Typography/Heading";
 import Modal from "../components/Modal/Modal";
 import { SecondaryButton } from "../components/Button/Button";
 import Grid from "../components/layout/utilities/Grid/Grid";
+import { useLocation } from "react-router-dom";
+import { baseUrl } from "../api/baseUrl";
 
 type EstablishmentType = {
   id: number;
@@ -30,9 +32,13 @@ const Establishments = () => {
   const [error, setError] = useState(false);
   const [establishments, setEstablishments] = useState([]);
   const [showFilter, setShowFilter] = useToggle();
+  let params = useLocation();
+  let catergoryFilter = params.search;
 
   useEffect(() => {
-    const url = `${process.env.REACT_APP_BASE_URL}/establishments`;
+    const url = catergoryFilter
+      ? `${baseUrl}/categories${catergoryFilter}`
+      : `${baseUrl}/establishments`;
     const fetchEstablishments = async () => {
       setError(false);
       setLoading(true);
@@ -40,6 +46,10 @@ const Establishments = () => {
       try {
         const res = await axios.get(url);
         setLoading(false);
+        if (catergoryFilter) {
+          let filteredEstablishments = res.data[0].establishments;
+          return setEstablishments(filteredEstablishments);
+        }
         setEstablishments(res.data);
       } catch (error) {
         setError(true);
@@ -48,7 +58,7 @@ const Establishments = () => {
       }
     };
     fetchEstablishments();
-  }, []);
+  }, [catergoryFilter, setEstablishments]);
 
   return (
     <Container>

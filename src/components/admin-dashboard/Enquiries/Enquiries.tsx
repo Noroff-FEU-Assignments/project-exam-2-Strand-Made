@@ -9,6 +9,10 @@ type TEnquiry = {
     Name: string;
     Recieved: string;
     email: string;
+    establishment_name: string;
+    from_date: Date;
+    to_date: Date;
+    created_at: string;
   };
 };
 const Box = styled.div`
@@ -35,11 +39,10 @@ const EnquiryData = styled.div`
 `;
 
 const Enquiries = ({ enquiry }: TEnquiry) => {
-  const date = new Date();
-
+  let sentDate = new Date(enquiry.created_at).toDateString();
+  console.log(enquiry);
   return (
     <Box>
-      <Heading.H2>Enquiries</Heading.H2>
       <EnquiriesContainer>
         <GridContainer>
           <Panel>
@@ -48,11 +51,11 @@ const Enquiries = ({ enquiry }: TEnquiry) => {
           </Panel>
           <Panel>
             <Heading.H3 weight="400">Recieved</Heading.H3>
-            <EnquiryData>{date.toDateString()}</EnquiryData>
+            <EnquiryData>{sentDate}</EnquiryData>
           </Panel>
           <Panel>
             <Heading.H3 weight="400">Establishment</Heading.H3>
-            <EnquiryData>Royal Hotel</EnquiryData>
+            <EnquiryData>{enquiry.establishment_name}</EnquiryData>
           </Panel>
         </GridContainer>
       </EnquiriesContainer>

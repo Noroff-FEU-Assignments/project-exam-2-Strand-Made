@@ -13,6 +13,7 @@ import Spacer from "./components/layout/utilities/Spacer/Spacer";
 import Footer from "./components/layout/Footer/Footer";
 import Establishment from "./pages/Establishment";
 import CreateEstablishment from "./pages/CreateEstablishment";
+import Super from "./pages/Super";
 
 function App() {
   return (
@@ -38,10 +39,12 @@ function App() {
             path="/admin/create-establishment"
             element={<CreateEstablishment />}
           />
+          <Route path="/super" element={<Super />} />
 
           <Route path="*" element={<main>This page doesn't exist</main>} />
         </Routes>
       </RelativeWrapper>
+
       <Spacer mt="3" />
       <Footer />
     </AuthProvider>

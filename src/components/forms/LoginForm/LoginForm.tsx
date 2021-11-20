@@ -8,7 +8,7 @@ import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import Heading from "../../Typography/Heading";
 import Label from "../Label/Label";
 import InputContainer from "../Input/InputContainer";
-import TextInput from "../Input/TextInput";
+import Input from "../Input/Input";
 import { PrimaryButton, SecondaryButton } from "../../Button/Button";
 import { baseUrl } from "../../../api/baseUrl";
 import { useAuth } from "../../../context/AuthContext";
@@ -99,7 +99,7 @@ const LoginForm = () => {
             <InputContainer>
               <Label htmlFor="email">Email</Label>
 
-              <TextInput
+              <Input
                 {...register("email")}
                 name="email"
                 type="email"
@@ -113,7 +113,7 @@ const LoginForm = () => {
             <InputContainer>
               <Label htmlFor="password">Password</Label>
 
-              <TextInput
+              <Input
                 {...register("password")}
                 name="password"
                 type="password"

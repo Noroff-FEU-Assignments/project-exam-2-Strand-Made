@@ -50,12 +50,16 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
     line-height: 1.5;
     color: var(--cool-gray-9);
     overflow-x: hidden;
     background: var(--cool-gray-1);
 }
+
 
 a {
     text-decoration: none;

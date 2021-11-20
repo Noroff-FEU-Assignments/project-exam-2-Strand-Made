@@ -15,6 +15,7 @@ type CategorySuggestion = {
   category_suggestion_title: string;
   name: string;
   id: number;
+  Slug: string;
 };
 type CategoryImage = {
   alternativeText: string;
@@ -42,8 +43,6 @@ const Home = () => {
     getCategories();
   }, [baseUrl]);
 
-  useEffect(() => {});
-
   return (
     <main>
       <Hero>
@@ -59,11 +58,13 @@ const Home = () => {
             {isLoading && <div>Is loading</div>}
             {error && <div>{error}</div>}
             {category.map((suggestion: CategorySuggestion) => {
-              const { category_suggestion_title, id } = suggestion;
+              const { category_suggestion_title, id, Slug } = suggestion;
+
               const { url, alternativeText } = suggestion.category_image;
               const imageUrl = `${baseUrl}${url}`;
               return (
                 <SuggestionsCard
+                  slug={Slug}
                   key={id}
                   title={category_suggestion_title}
                   img={imageUrl}

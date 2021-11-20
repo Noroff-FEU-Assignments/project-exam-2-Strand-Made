@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { borderRadius } from "../../../globalStyle/_variables";
 import { mediaQueries } from "../../../utils/styleHelpers";
 import LinkButton from "../../Button/LinkButton";
+import Box from "../../layout/Box/Box";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import Spacer from "../../layout/utilities/Spacer/Spacer";
 import Heading from "../../Typography/Heading";
@@ -11,7 +12,7 @@ type TEstablishmentPanel = {
   children: ReactNode;
 };
 
-const Box = styled.div`
+const Panel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,22 +32,24 @@ const Header = styled.div`
 
 const EstablishmentsPanel = ({ children }: TEstablishmentPanel) => {
   return (
-    <Box>
-      <Heading.H2>Establishments</Heading.H2>
-      <EstablishmentsList aria-roledescription="list">
-        <Header>
-          <Heading.H3 weight="400">Name</Heading.H3>
-          <Heading.H3 weight="400">Edit</Heading.H3>
-        </Header>
-        {children}
-      </EstablishmentsList>
-      <Spacer mt="1" />
-      <FlexContainer justifyContent="end">
-        <LinkButton to="create-establishment" size="md">
-          Create new
-        </LinkButton>
-      </FlexContainer>
-    </Box>
+    <Panel>
+      <Box>
+        <Heading.H2>Establishments</Heading.H2>
+        <EstablishmentsList aria-roledescription="list">
+          <Header>
+            <Heading.H3 weight="400">Name</Heading.H3>
+            <Heading.H3 weight="400">Edit</Heading.H3>
+          </Header>
+          {children}
+        </EstablishmentsList>
+        <Spacer mt="1" />
+        <FlexContainer justifyContent="end">
+          <LinkButton to="create-establishment" size="md">
+            Create new
+          </LinkButton>
+        </FlexContainer>
+      </Box>
+    </Panel>
   );
 };
 
