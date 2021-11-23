@@ -14,16 +14,16 @@ export const HeroSection = styled.section`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 450px;
-  padding: 0.5rem;
+  height: 50vh;
+  padding-top: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   width: 100%;
   margin: 0 auto;
-  ${mediaQueries("sm")`
-  border-radius: 8px;
-  max-width: 700px;
-  `}
   ${mediaQueries("md")`
   max-width: 1100px;
+  border-radius: 8px;
+  padding: 5rem;
   `}
   ${mediaQueries("lg")`
   max-width: 1200px;
@@ -34,7 +34,7 @@ const Hero = ({ children }: HeroProps) => {
   return (
     <HeroSection>
       <HeroContent>
-        <Heading size="3xl">Experience Bergen with Holidaze</Heading>
+        <Heading size="4xl">Experience Bergen with Holidaze</Heading>
         {children}
       </HeroContent>
     </HeroSection>
