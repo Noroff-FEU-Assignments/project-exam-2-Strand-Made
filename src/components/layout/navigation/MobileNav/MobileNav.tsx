@@ -7,12 +7,12 @@ import { shadows } from "../../../../globalStyle/_variables";
 import LinkButton from "../../../Button/LinkButton";
 import { SecondaryButton } from "../../../Button/Button";
 
-interface MobileNavProps {
+interface IMobileNavProps {
   isToggled: boolean;
   setIsToggled?: any;
 }
 
-const MobileMenuContainer = styled.div<MobileNavProps>`
+const MobileMenuContainer = styled.div<IMobileNavProps>`
   position: absolute;
   z-index: 10;
   box-shadow: ${shadows.lg};
@@ -20,8 +20,10 @@ const MobileMenuContainer = styled.div<MobileNavProps>`
   padding: 1.25rem;
   left: 0;
   width: 100%;
+  height: 100%;
   transform: ${(props) =>
-    props.isToggled ? "translateY(0)" : "translateY(-200px)"};
+    props.isToggled ? "translateX(0)" : "translateX(-1000px)"};
+  transition: var(--animate-transf);
 
   ${mediaQueries("sm")`
   display: none;
@@ -29,20 +31,21 @@ const MobileMenuContainer = styled.div<MobileNavProps>`
 `;
 const MobileNavList = styled.ul`
   margin-bottom: 1.5rem;
+  background: white;
 `;
 
 const MobileNavItem = styled.li`
   width: 100%;
 `;
 
-const MobileNav = ({ isToggled, setIsToggled }: MobileNavProps) => {
+const MobileNav = ({ isToggled, setIsToggled }: IMobileNavProps) => {
   const { auth, setAuth } = useAuth();
   return (
     <>
       <MobileMenuContainer isToggled={isToggled}>
         {isToggled ? (
           <>
-            <MobileNavList role="menu" aria-roledescription="mobile nav menu">
+            <MobileNavList role="menu" aria-roledescription="mobile menu">
               <FlexContainer col gap="1rem">
                 <MobileNavItem>
                   <NavLinks onClick={setIsToggled} mobile to="/">

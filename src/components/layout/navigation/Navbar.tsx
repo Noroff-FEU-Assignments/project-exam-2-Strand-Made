@@ -27,6 +27,8 @@ const ToggleMenuBtn = styled.button`
   display: flex;
   background: var(--cool-gray-2);
   border-radius: 1000px;
+  height: 40px;
+  width: 40px;
   padding: 0.5rem;
   ${mediaQueries("sm")`
   display: none;
