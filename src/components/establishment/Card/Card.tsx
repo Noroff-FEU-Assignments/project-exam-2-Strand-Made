@@ -12,6 +12,7 @@ interface EstablishmentPropTypes {
   price?: number;
   slug: string;
   id?: number;
+  altText?: string;
 }
 
 const EstablishmentCard = styled.div``;
@@ -24,13 +25,13 @@ const Image = styled.img`
   width: 100%;
 `;
 
-const Card = ({ img, title, price, slug, id }: EstablishmentPropTypes) => {
+const Card = ({ img, title, price, slug, altText }: EstablishmentPropTypes) => {
   return (
     <EstablishmentCard>
       <div>
         <CardLink to={`${slug}`}>
           <Frame>
-            <Image src={img} alt="Hello" />
+            <Image src={img} alt={altText ? altText : title} />
           </Frame>
         </CardLink>
       </div>
