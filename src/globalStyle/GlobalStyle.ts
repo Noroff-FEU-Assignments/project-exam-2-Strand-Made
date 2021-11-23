@@ -47,6 +47,9 @@ const GlobalStyle = createGlobalStyle`
     --yellow-2: #FFF3C4;
     --yellow-1: #FFFBEA;
 
+    --animate-transf: 0.5s ease-in-out;
+    --animate-input: border-color 0.2s ease-out;
+
 }
 
 body {

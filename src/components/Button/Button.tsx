@@ -9,6 +9,7 @@ export interface ButtonProps {
   full?: boolean;
   size?: keyof typeof buttonSizes;
   href?: string;
+  invert?: boolean;
 }
 export const buttonSizes = {
   sm: "8px 10px",
@@ -17,14 +18,14 @@ export const buttonSizes = {
 };
 export const PrimaryButton = styled.button<ButtonProps>`
   display: inline-block;
-  background: var(--blue-5);
+  background: ${(props) => (props.invert ? "var(--blue-1)" : "var(--blue-5)")};
   font-size: ${(props) => {
     if (props.size === "sm") return "0.833rem";
     if (props.size === "md") return "1rem";
     if (props.size === "l") return "1.4rem";
     return "1rem";
   }};
-  color: var(--blue-1);
+  color: ${(props) => (props.invert ? "var(--blue-6)" : "var(--blue-1)")};
   font-weight: 600;
   border-radius: 8px;
   width: ${(props) => props.full && "100%"};
@@ -34,10 +35,15 @@ export const PrimaryButton = styled.button<ButtonProps>`
     if (props.size === "l") return buttonSizes.l;
   }};
   box-shadow: ${shadows.md};
+  transition-property: background, color, box-shadow, transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in;
+
   :active,
   :focus {
     background: var(--blue-6);
     box-shadow: ${shadows.sm};
+    transform: scale(0.99);
   }
   ${Header} & {
     display: none;
