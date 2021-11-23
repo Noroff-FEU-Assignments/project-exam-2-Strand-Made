@@ -1,7 +1,9 @@
 import { useAuth } from "../context/AuthContext";
 import Container from "../components/layout/Container/Container";
 import Heading from "../components/Typography/Heading";
-import Enquiries from "../components/admin-dashboard/Enquiries/Enquiries";
+import Enquiries, {
+  EnquiriesContainer,
+} from "../components/admin-dashboard/Enquiries/Enquiries";
 import EstablishmentsPanel from "../components/admin-dashboard/EstablishmentsPanel/EstablishmentsPanel";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -11,6 +13,7 @@ import axios from "axios";
 import { baseUrl } from "../api/baseUrl";
 import EstablishmentElement from "../components/admin-dashboard/EstablishmentsPanel/EstablishmentElement";
 import Box from "../components/layout/Box/Box";
+import Spacer from "../components/layout/utilities/Spacer/Spacer";
 
 const Admin = () => {
   let navigate = useNavigate();
@@ -22,6 +25,7 @@ const Admin = () => {
   const userType = auth.userinfo.type;
 
   useEffect(() => {
+    document.title = "Admin | Holidaze";
     if (!auth) {
       navigate("/login");
     }
@@ -83,17 +87,19 @@ const Admin = () => {
         <span>
           Welcome <Emphasize>{user}</Emphasize>
         </span>
-        <Switcher space={2} threshold={300} limit={150}>
+        <Spacer mt={"3"} />
+        <Switcher space={2} threshold={200} limit={3}>
           <Box>
-            <Heading.H2>Enquiries</Heading.H2>
-
-            {enquiries.length > 0 ? (
-              enquiries.map((enquiry) => (
-                <Enquiries key={enquiry.id} enquiry={enquiry} />
-              ))
-            ) : (
-              <p>You have no enquiries at this moment</p>
-            )}
+            <Heading.H2>Your Enquiries</Heading.H2>
+            <EnquiriesContainer>
+              {enquiries.length > 0 ? (
+                enquiries.map((enquiry) => (
+                  <Enquiries key={enquiry.id} enquiry={enquiry} />
+                ))
+              ) : (
+                <p>You have no enquiries at this moment</p>
+              )}
+            </EnquiriesContainer>
           </Box>
           <EstablishmentsPanel>
             {establishments.map((establishment) => (

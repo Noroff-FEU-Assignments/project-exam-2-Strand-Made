@@ -25,10 +25,6 @@ const EstablishmentsList = styled.div`
   padding: 1rem;
   border-radius: ${borderRadius.sm};
 `;
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const EstablishmentsPanel = ({ children }: TEstablishmentPanel) => {
   return (
@@ -36,10 +32,6 @@ const EstablishmentsPanel = ({ children }: TEstablishmentPanel) => {
       <Box>
         <Heading.H2>Establishments</Heading.H2>
         <EstablishmentsList aria-roledescription="list">
-          <Header>
-            <Heading.H3 weight="400">Name</Heading.H3>
-            <Heading.H3 weight="400">Edit</Heading.H3>
-          </Header>
           {children}
         </EstablishmentsList>
         <Spacer mt="1" />
