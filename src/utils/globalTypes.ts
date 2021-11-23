@@ -10,4 +10,5 @@ export enum FetchStatus {
   FETCHING = "fetching",
   SUCCESS = "success",
   ERROR = "error",
+  NO_RESULT = "no_result",
 }
