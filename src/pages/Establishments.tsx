@@ -34,7 +34,9 @@ const Establishments = () => {
   const [showFilter, setShowFilter] = useToggle();
   let params = useLocation();
   let catergoryFilter = params.search;
-
+  useEffect(() => {
+    document.title = "Establishments | Holidaze";
+  });
   useEffect(() => {
     const url = catergoryFilter
       ? `${baseUrl}/categories${catergoryFilter}`
@@ -76,8 +78,10 @@ const Establishments = () => {
       {error && "An error occured"}
       <Grid gap="1.5rem">
         {establishments.map((establishment: EstablishmentType) => {
+          console.log(establishment);
           const { id, price, slug, title } = establishment;
           const imgUrl = `${process.env.REACT_APP_BASE_URL}${establishment.image.formats.small.url}`;
+          const altText = establishment.image.alternativeText;
           return (
             <Card
               key={id}
@@ -85,6 +89,7 @@ const Establishments = () => {
               slug={slug}
               title={title}
               img={imgUrl}
+              altText={altText}
             />
           );
         })}

@@ -17,6 +17,7 @@ const CreateEstablishment = () => {
   let navigate = useNavigate();
   const { auth } = useAuth();
   useEffect(() => {
+    document.title = "Create Establishment | Holidaze";
     if (!auth) {
       navigate("/");
     }

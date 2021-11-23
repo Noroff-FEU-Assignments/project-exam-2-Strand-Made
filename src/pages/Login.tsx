@@ -6,6 +6,9 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
 const Login = () => {
+  useEffect(() => {
+    document.title = "Holidaze | Login";
+  });
   let navigate = useNavigate();
   const { auth } = useAuth();
   useEffect(() => {

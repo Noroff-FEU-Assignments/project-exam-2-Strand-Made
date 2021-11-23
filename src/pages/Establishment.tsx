@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Heading from "../components/Typography/Heading";
 import Container from "../components/layout/Container/Container";
 import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
-import IconContainer from "../components/IconsContainer/IconsContainer";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
 import Amenitites from "../components/establishment/Amenities/Amenitites";
 import Paragraph from "../components/Typography/Paragraph";
@@ -14,7 +12,6 @@ import useToggle from "../hooks/useToggle";
 import RelativeWrapper from "../components/layout/navigation/MobileNav/RelativeWrapper";
 import Image from "../components/layout/Image/Image";
 import Popover from "../components/layout/Popover/Popover";
-import EnquireForm from "../components/forms/EnquireForm/EnquireForm";
 import Box from "../components/layout/Box/Box";
 import { borderRadius } from "../globalStyle/_variables";
 import OfferList from "../components/establishment/OfferList/OfferList";
@@ -22,11 +19,8 @@ import Section from "../components/layout/Section/Section";
 import Grid from "../components/layout/utilities/Grid/Grid";
 import StayCalculator from "../components/establishment/StayCalculator/StayCalculator";
 import Aside from "../components/layout/Aside/Aside";
-import Switcher from "../components/layout/utilities/Switcher/Switcher";
-import Emphasize from "../components/Typography/Emphasize";
-import Stack from "../components/layout/Stack/Stack";
-import SkeletonLoader from "../components/layout/SkeleteonLoader/SkeletonLoader";
 import Main from "../components/layout/Main/Main";
+import EnquirePopup from "../components/establishment/EnquirePopup/EnquirePopup";
 
 export type TUser = {
   id: number;
@@ -73,7 +67,7 @@ const Establishment = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [stay, setStay] = useState(null);
-  const [guests, setGuests] = useState(0);
+  const [guests, setGuests] = useState(1);
   const [establishment, setEstablishment] = useState<EstablishmentType | null>(
     null
   );
@@ -97,6 +91,9 @@ const Establishment = () => {
     };
     fetchEstablishment();
   }, [baseUrl, establishmentSlug, setEstablishment]);
+  useEffect(() => {
+    document.title = `${establishment?.title} | Holidaze`;
+  }, [establishment]);
 
   const dateOnChange = (dates) => {
     const [start, end] = dates;
@@ -118,7 +115,7 @@ const Establishment = () => {
               <Image
                 fullWidth
                 src={`${baseUrl}${establishment?.image.formats.large.url}`}
-                alt=""
+                alt={establishment.image.alternativeText}
               />
             </ImageContainer>
             <Spacer mt="1.5" />
@@ -160,63 +157,15 @@ const Establishment = () => {
             </Grid>
             {toggle && (
               <Popover margin="0.5rem" position="fixed">
-                <Box
-                  padding="1rem"
-                  borderRadius
-                  background="var(--cool-gray-1)"
-                >
-                  <Box>
-                    <FlexContainer justifyContent="space-between">
-                      <Stack>
-                        <Heading.H4 size="l">Enquire</Heading.H4>
-                        <Heading.H5 size="xl">
-                          Staying at {establishment.title}
-                        </Heading.H5>
-                      </Stack>
-                      <button onClick={setToggle}>
-                        <IconContainer>
-                          <MdClose size="24" />
-                        </IconContainer>
-                      </button>
-                    </FlexContainer>
-                  </Box>
-                  {guests || startDate ? (
-                    <Box>
-                      <Switcher>
-                        {guests && (
-                          <Box>
-                            <span>
-                              With<Emphasize> {guests}</Emphasize> guests
-                            </span>
-                          </Box>
-                        )}
-                        {startDate && (
-                          <Box>
-                            <span>
-                              From
-                              <Emphasize>{startDate.toDateString()}</Emphasize>
-                            </span>
-                          </Box>
-                        )}
-                        {endDate && (
-                          <Box>
-                            <span>
-                              To
-                              <Emphasize>{endDate.toDateString()}</Emphasize>
-                            </span>
-                          </Box>
-                        )}
-                      </Switcher>
-                    </Box>
-                  ) : null}
-                  <EnquireForm
-                    host={host}
-                    guests={guests}
-                    startDate={startDate}
-                    endDate={endDate}
-                    title={establishmentTitle}
-                  />
-                </Box>
+                <EnquirePopup
+                  host={host}
+                  establishmentTitle={establishmentTitle}
+                  setToggle={setToggle}
+                  establishment={establishment}
+                  guests={guests}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
               </Popover>
             )}
           </Container>
