@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { borderRadius, shadows } from "../../../globalStyle/_variables";
 
 interface IPopover {
   position?: "absolute" | "sticky" | "fixed";
@@ -21,7 +22,9 @@ const Contain = styled.div<TContain>`
   --margin: ${(props) => (props.margin ? props.margin : "0.5rem")};
   max-width: calc(100% - var(--margin) * 2);
   max-height: calc(100% - var(--margin) * 2);
-  overflow: auto;
+  border-radius: ${borderRadius.md};
+  box-shadow: ${shadows.lg};
+  overflow: hidden;
 `;
 
 const Popover = ({ children, position, margin }: IPopover) => {
