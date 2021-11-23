@@ -10,6 +10,8 @@ import TextInput from "../Input/Input";
 import Label from "../Label/Label";
 import { PrimaryButton } from "../../Button/Button";
 import SearchResultList from "./SearchResults";
+import { baseUrl } from "../../../api/baseUrl";
+import { FetchStatus } from "../../../utils/globalTypes";
 
 const SearchHotel = styled.form`
   position: relative;
@@ -33,9 +35,9 @@ const ButtonContainer = styled.div`
 `;
 
 const SearchBar = () => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
-  const [searching, setSearching] = useState(false);
-  const [error, setError] = useState(false);
+  const url = baseUrl;
+  const [status, setStatus] = useState<FetchStatus>(FetchStatus.IDLE);
+  const [error, setError] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [hotels, setHotels] = useState([]);
 
@@ -45,25 +47,25 @@ const SearchBar = () => {
     async function searchHotels(search: string) {
       try {
         const res = await axios.get(
-          `${baseUrl}/establishments?title_contains=${search}`
+          `${url}/establishments?title_contains=${search}`
         );
         const { data } = res;
         return data;
       } catch (error) {
-        console.log(error);
-        setError(true);
+        setStatus(FetchStatus.ERROR);
+        setError(error.toString());
         return [];
       }
     }
     if (debouncedSearchValue) {
-      setSearching(true);
       searchHotels(debouncedSearchValue).then((data) => {
-        setSearching(false);
-        setHotels(data);
+        if (data.length === 0) {
+          setStatus(FetchStatus.NO_RESULT);
+          return setHotels([]);
+        }
+        setStatus(FetchStatus.SUCCESS);
+        return setHotels(data);
       });
-    } else {
-      setHotels([]);
-      setSearching(false);
     }
   }, [baseUrl, debouncedSearchValue]);
 
@@ -81,7 +83,10 @@ const SearchBar = () => {
               <span>Hotel</span>
             </Label>
             <TextInput
-              onChange={(e) => setSearchValue(e.target.value)}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                setStatus(FetchStatus.FETCHING);
+              }}
               value={searchValue}
               placeholder="Where are you staying?"
             />
@@ -93,7 +98,11 @@ const SearchBar = () => {
       </Flex>
       {error && <div>An error occured!</div>}
       {searchValue ? (
-        <SearchResultList searching={searching} establishments={hotels} />
+        <SearchResultList
+          status={status}
+          setStatus={setStatus}
+          establishments={hotels}
+        />
       ) : null}
     </SearchHotel>
   );

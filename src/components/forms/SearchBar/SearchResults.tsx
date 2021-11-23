@@ -3,6 +3,7 @@ import { MdApartment, MdHouseboat, MdHouse } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
+import { FetchStatus } from "../../../utils/globalTypes";
 
 const List = styled.ul`
   position: absolute;
@@ -29,7 +30,8 @@ const ResultItem = styled.li`
 `;
 
 interface ListProps {
-  searching: boolean;
+  status: FetchStatus;
+  setStatus: any;
   establishments: {
     id: number;
     title: string;
@@ -40,7 +42,7 @@ interface ListProps {
   }[];
 }
 
-const SearchResultList = ({ establishments, searching }: ListProps) => {
+const SearchResultList = ({ establishments, status }: ListProps) => {
   const [lengthCheck, setLengthCheck] = useState(false);
   const iconCheck = (category) => {
     if (category === "Hotels") {
@@ -61,12 +63,14 @@ const SearchResultList = ({ establishments, searching }: ListProps) => {
   }, [establishments]);
   return (
     <List>
-      <li>{searching && <div>Searching...</div>}</li>
+      {status === FetchStatus.FETCHING && "Searching..."}
+      {status === FetchStatus.ERROR && "Error getting establishments"}
+      {status === FetchStatus.NO_RESULT && "No Result"}
       {establishments.map((establishment) => (
         <ResultItem aria-roledescription="list-item" key={establishment.id}>
           <Link to={`/establishments/${establishment.slug}`}>
             {iconCheck(establishment.category.name)}
-            <span aria-roledescription="">{establishment.title}</span>
+            <span>{establishment.title}</span>
           </Link>
         </ResultItem>
       ))}
