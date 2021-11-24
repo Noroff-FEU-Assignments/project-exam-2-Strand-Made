@@ -12,6 +12,8 @@ import Box from "../../layout/Box/Box";
 import axios from "axios";
 import { baseUrl } from "../../../api/baseUrl";
 import { TUser } from "../../../pages/Establishment";
+import { useState } from "react";
+import { FetchStatus } from "../../../utils/globalTypes";
 
 interface IEnquireForm {
   host: TUser;
@@ -22,8 +24,7 @@ interface IEnquireForm {
 }
 
 const Form = styled.form`
-  width: 350px;
-  background: var(--cool-gray-1);
+  min-width: 200px;
   padding: 1rem;
 `;
 
@@ -40,22 +41,32 @@ const EnquireForm = ({
   guests,
   title,
 }: IEnquireForm) => {
-  console.log(startDate);
-  console.log(endDate);
-  console.log(host);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState<FetchStatus>(FetchStatus.IDLE);
 
   async function sendEnquire(data) {
     const url = `${baseUrl}/enquiries`;
     try {
+      setStatus(FetchStatus.FETCHING);
       const res = await axios({
         method: "POST",
         url: url,
         data,
       });
+
       const enqRes = res.data;
+      setStatus(FetchStatus.SUCCESS);
       console.log(enqRes);
     } catch (error) {
-      console.log(error);
+      setStatus(FetchStatus.ERROR);
+      const getErrors = error.response.data.data.errors;
+
+      if (getErrors.from_date) {
+        setError("Please include check-in date");
+      }
+      if (getErrors.to_date) {
+        setError("Please include check-out date.");
+      }
     }
   }
 
@@ -85,6 +96,11 @@ const EnquireForm = ({
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
+        {error && (
+          <Box>
+            <Message.Info>{error}</Message.Info>
+          </Box>
+        )}
         <Box>
           <Label htmlFor="firstName"> Your name </Label>
           <Input
@@ -114,6 +130,7 @@ const EnquireForm = ({
         <Box>
           <Label htmlFor="message"> Enquiry </Label>
           <TextBox
+            rows={5}
             placeholder="Additional details"
             aria-invalid={errors.message ? "true" : "false"}
             {...register("message")}
