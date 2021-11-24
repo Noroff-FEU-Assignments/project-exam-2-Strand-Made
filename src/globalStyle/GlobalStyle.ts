@@ -2,10 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
-* {
+*, *::before, *::after {
     box-sizing: border-box;
+}
+*{
     margin: 0;
-    padding: 0;
 }
 
 :root {
@@ -52,17 +53,28 @@ const GlobalStyle = createGlobalStyle`
 
 }
 
+html, body, #root {
+    height: 100%;
+}
+#root {
+    isolation: isolate;
+}
+
 body {
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
     font-family: "Nunito Sans", Montserrat, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", sans-serif;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
     color: var(--cool-gray-9);
     overflow-x: hidden;
     background: var(--cool-gray-1);
 }
 
+img, svg {
+    display: block;
+    max-width: 100%;
+}
 
 a {
     text-decoration: none;
@@ -75,12 +87,10 @@ a {
 li {
     list-style: none;
 }
-h1 {
-    line-height: 3rem;
-    
-}
+
 h1, h2, h3, h4, h5, h6, p {
     max-width: 60ch;
+    overflow-wrap: break-word;
 }
 button {
     outline: none;
