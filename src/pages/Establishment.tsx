@@ -107,14 +107,15 @@ const Establishment = () => {
 
   return (
     <Main>
-      {error && <div>Error...</div>}
+      {isLoading && "Loading..."}
+      {error && <div>Error</div>}
       {establishment && (
         <RelativeWrapper>
           <Container>
             <ImageContainer>
               <Image
                 fullWidth
-                src={`${baseUrl}${establishment?.image.formats.large.url}`}
+                src={establishment?.image.formats.large.url}
                 alt={establishment.image.alternativeText}
               />
             </ImageContainer>

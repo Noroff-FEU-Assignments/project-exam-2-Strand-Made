@@ -61,7 +61,7 @@ const Home = () => {
               const { category_suggestion_title, id, Slug } = suggestion;
 
               const { url, alternativeText } = suggestion.category_image;
-              const imageUrl = `${baseUrl}${url}`;
+              const imageUrl = `${url}`;
               return (
                 <SuggestionsCard
                   slug={Slug}

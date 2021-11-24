@@ -80,7 +80,7 @@ const Establishments = () => {
         {establishments.map((establishment: EstablishmentType) => {
           console.log(establishment);
           const { id, price, slug, title } = establishment;
-          const imgUrl = `${process.env.REACT_APP_BASE_URL}${establishment.image.formats.small.url}`;
+          const imgUrl = establishment.image.formats.small.url;
           const altText = establishment.image.alternativeText;
           return (
             <Card
