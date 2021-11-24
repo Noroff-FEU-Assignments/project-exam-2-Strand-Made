@@ -18,7 +18,7 @@ const Switch = styled.div<TSwitcher>`
 
   & > * {
     flex-grow: 1;
-    flex-basis: calc((var(--customThreshold, var(--threshold)) - 100%) * 999);
+    flex-basis: calc((var(--customThreshold) - 100%) * 999);
   }
 
   & > :nth-last-child(n + ${(props) => props.limit}),
