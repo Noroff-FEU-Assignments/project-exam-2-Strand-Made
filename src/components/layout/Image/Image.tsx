@@ -10,6 +10,7 @@ interface IImage {
 const StyledImage = styled.img<IImage>`
   width: 100%;
   object-fit: cover;
+  border-radius: inherit;
 
   ${(props) => {
     return (
