@@ -1,11 +1,19 @@
 import Container from "../components/layout/Container/Container";
 import ContactForm from "../components/forms/ContactForm/ContactForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { baseUrl } from "../api/baseUrl";
 import axios from "axios";
 import { FormStatus } from "../utils/globalTypes";
+import Heading from "../components/Typography/Heading";
+import Box from "../components/layout/Box/Box";
+import Banner from "../components/Banner/Banner";
+import Spacer from "../components/layout/utilities/Spacer/Spacer";
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = "Contact us | Holidaze";
+  });
+
   const [status, setStatus] = useState<FormStatus>(FormStatus.IDLE);
   const [error, setError] = useState(null);
 
@@ -29,6 +37,13 @@ const Contact = () => {
 
   return (
     <Container>
+      <Box padding="1rem">
+        <Heading size="md">
+          For all questions regarding refunds, booking or any other problem
+          you're facing. Don't hesitate to contact our customer service below
+        </Heading>
+      </Box>
+      <Spacer mt="1.5" />
       <ContactForm
         status={status}
         error={error}
