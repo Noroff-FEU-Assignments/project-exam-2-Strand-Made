@@ -39,7 +39,7 @@ const EnquiryContainer = styled.div`
   background: var(--cool-gray-1);
   border-radius: ${borderRadius.sm};
 `;
-const GridContainer = styled.div`
+export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 1rem;
