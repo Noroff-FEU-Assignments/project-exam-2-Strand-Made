@@ -1,12 +1,18 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 import Container from "../components/layout/Container/Container";
 import Heading from "../components/Typography/Heading";
-import { useEffect, useState } from "react";
+
 import Box from "../components/layout/Box/Box";
 import { FetchStatus } from "../utils/globalTypes";
 import { baseUrl } from "../api/baseUrl";
 import axios from "axios";
+import Stack from "../components/layout/Stack/Stack";
+import Switcher from "../components/layout/utilities/Switcher/Switcher";
+import { EnquiriesContainer } from "../components/admin-dashboard/Enquiries/Enquiries";
+import Paragraph from "../components/Typography/Paragraph";
+import ContactMessages from "../components/admin-dashboard/contact-messages/ContactMessages";
 
 const Super = () => {
   const { auth } = useAuth();
@@ -29,23 +35,33 @@ const Super = () => {
       const url = `${baseUrl}/admin-mails`;
       try {
         setStatus(FetchStatus.FETCHING);
-        const res = await axios(url);
+        const res = await axios(url, {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        });
         setStatus(FetchStatus.SUCCESS);
         setMessages(res.data);
+        console.log(res.data);
       } catch (error) {
         setStatus(FetchStatus.ERROR);
         setError(error.toString());
       }
     };
     fetchMessages();
-  }, [messages]);
+  }, [auth.token]);
 
   return (
     <Container>
       <Heading>Dashboard</Heading>
-      <Box>
+      <Stack>
         <Heading.H2>Messages</Heading.H2>
-      </Box>
+        <Stack space={1}>
+          {messages.map((message) => (
+            <ContactMessages key={message.id} message={message} />
+          ))}
+        </Stack>
+      </Stack>
     </Container>
   );
 };
