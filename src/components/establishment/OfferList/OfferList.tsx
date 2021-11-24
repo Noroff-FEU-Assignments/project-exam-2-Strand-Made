@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { EstablishmentType } from "../../../pages/Establishment";
 import { IconContainer } from "../../IconsContainer/IconsContainer";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
-import Stack from "../../layout/Stack/Stack";
 import Emphasize from "../../Typography/Emphasize";
 
 interface IStyledList {

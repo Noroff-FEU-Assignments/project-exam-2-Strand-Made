@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
@@ -5,7 +6,6 @@ import Container from "../components/layout/Container/Container";
 import Heading from "../components/Typography/Heading";
 import CreateEstablishmentForm from "../components/forms/CreateEstablishment/CreateEstablishmentForm";
 import { Link } from "react-router-dom";
-import LinkButton from "../components/Button/LinkButton";
 import axios from "axios";
 import { baseUrl } from "../api/baseUrl";
 
@@ -21,7 +21,7 @@ const CreateEstablishment = () => {
     if (!auth) {
       navigate("/");
     }
-  }, [auth]);
+  }, [auth, navigate]);
 
   async function createEstablishment(data) {
     const url = `${baseUrl}/establishments`;
@@ -54,7 +54,6 @@ const CreateEstablishment = () => {
             },
             data: formData,
           });
-          setSuccess(true);
         };
         imageUpload(res);
       })

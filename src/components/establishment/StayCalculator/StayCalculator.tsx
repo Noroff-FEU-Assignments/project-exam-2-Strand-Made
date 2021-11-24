@@ -1,4 +1,3 @@
-import { start } from "repl";
 import styled from "styled-components";
 import { borderRadius, shadows } from "../../../globalStyle/_variables";
 import { PrimaryButton } from "../../Button/Button";
@@ -9,7 +8,6 @@ import Stack from "../../layout/Stack/Stack";
 import StayDatePicker from "../../StayDatePicker/StayDatePicker";
 import Emphasize from "../../Typography/Emphasize";
 import Heading from "../../Typography/Heading";
-import Paragraph from "../../Typography/Paragraph";
 
 interface IStayCalculator {
   price: number;
@@ -58,6 +56,7 @@ const StayCalculator = ({
                 onChange={(e) => setGuests(e.target.value)}
                 placeholder="How many guests?"
                 value={guests}
+                min={1}
                 type="number"
               />
             </Box>
@@ -84,7 +83,6 @@ const StayCalculator = ({
           >
             Enquire
           </PrimaryButton>
-          <Paragraph></Paragraph>
         </Box>
       </Stack>
     </Calculator>

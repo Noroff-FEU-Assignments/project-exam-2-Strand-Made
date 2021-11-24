@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { State, To } from "history";
 import { buttonSizes } from "./Button";
 import { shadows } from "../../globalStyle/_variables";

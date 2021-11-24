@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
-import { IconContainer } from "../../IconsContainer/IconsContainer";
 import Box from "../../layout/Box/Box";
 import Stack from "../../layout/Stack/Stack";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
