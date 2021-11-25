@@ -41,7 +41,7 @@ const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const [hotels, setHotels] = useState([]);
 
-  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const debouncedSearchValue = useDebounce(searchValue, 350);
 
   useEffect(() => {
     async function searchHotels(search: string) {
