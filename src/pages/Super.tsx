@@ -1,16 +1,18 @@
-import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import Container from "../components/layout/Container/Container";
-import Heading from "../components/Typography/Heading";
+
+import { useAuth } from "../context/AuthContext";
 import { FetchStatus } from "../utils/globalTypes";
 import { baseUrl } from "../api/baseUrl";
-import axios from "axios";
+import Container from "../components/layout/Container/Container";
+import Heading from "../components/Typography/Heading";
 import Stack from "../components/layout/Stack/Stack";
 import ContactMessages from "../components/admin-dashboard/contact-messages/ContactMessages";
 import Main from "../components/layout/Main/Main";
 import Message from "../components/Message/Message";
 import EmptyEnquiries from "../components/empty-states/EmptyEnquiries";
+import DashboardLoader from "../components/layout/SkeleteonLoader/Dashboard/DashboardLoader";
 
 const Super = () => {
   const { auth } = useAuth();
@@ -57,7 +59,7 @@ const Super = () => {
           {status === FetchStatus.ERROR && (
             <Message.Error>{error}</Message.Error>
           )}
-          {status === FetchStatus.FETCHING && "Loading..."}
+          {status === FetchStatus.FETCHING && <DashboardLoader />}
           <Stack space={"1rem"}>
             {messages.length > 0 ? (
               messages.map((message) => (
