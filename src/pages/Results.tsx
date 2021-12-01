@@ -60,7 +60,7 @@ const Results = () => {
           <SkeletonLoader numberofLoaders={6} />
         )}
         <Grid gap="1.5rem">
-          {filteredEstablishments.length > 1 ? (
+          {filteredEstablishments.length > 0 ? (
             filteredEstablishments.map((establishment: EstablishmentType) => {
               const { id, price, slug, title } = establishment;
               const imgUrl = establishment.image.formats.small.url;
