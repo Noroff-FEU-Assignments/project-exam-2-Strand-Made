@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ReactNode } from "react";
 import { mediaQueries } from "../../../utils/styleHelpers";
 import HeroContent from "./HeroContent";
-import hero from "../../../assets/hero.jpg";
+import hero from "../../../assets/herowebp.webp";
 import Heading from "../../Typography/Heading";
 
 type HeroProps = {
