@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import Heading from "../components/Typography/Heading";
 import Container from "../components/layout/Container/Container";
@@ -21,6 +22,9 @@ import StayCalculator from "../components/establishment/StayCalculator/StayCalcu
 import Aside from "../components/layout/Aside/Aside";
 import Main from "../components/layout/Main/Main";
 import EnquirePopup from "../components/establishment/EnquirePopup/EnquirePopup";
+import { FetchStatus } from "../utils/globalTypes";
+import Message from "../components/Message/Message";
+import EstablishmentLoader from "../components/layout/SkeleteonLoader/Establishment/EstablishmentLoader";
 
 export type TUser = {
   id: number;
@@ -35,11 +39,15 @@ export type EstablishmentType = {
   bedrooms: number;
   distance_city_centre_km: number;
   user: TUser;
+  slug: string;
   image: {
     alternativeText: string;
     url: string;
     formats: {
       large: {
+        url: string;
+      };
+      small: {
         url: string;
       };
     };
@@ -52,6 +60,7 @@ export type EstablishmentType = {
     cleaning: boolean;
   };
   description: string;
+  short_description: string;
 };
 
 const ImageContainer = styled.div`
@@ -63,7 +72,9 @@ const Establishment = () => {
   let params = useParams();
   const { establishmentSlug } = params;
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState<FetchStatus>(FetchStatus.IDLE);
+  const [error, setError] = useState("");
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [guests, setGuests] = useState(1);
@@ -71,26 +82,21 @@ const Establishment = () => {
     null
   );
   const [toggle, setToggle] = useToggle(false);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    document.title = `${establishment?.title} | Holidaze`;
-  }, [establishment]);
 
   useEffect(() => {
     const fetchEstablishment = async () => {
-      setIsLoading(true);
+      setStatus(FetchStatus.FETCHING);
       try {
         const res = await axios.get(
           `${baseUrl}/establishments?slug=${establishmentSlug}`
         );
         const data = res.data[0];
+        setStatus(FetchStatus.SUCCESS);
 
         setEstablishment(data);
       } catch (error) {
-        setError(true);
-      } finally {
-        setIsLoading(false);
+        setStatus(FetchStatus.ERROR);
+        setError(error.toString());
       }
     };
     fetchEstablishment();
@@ -105,72 +111,83 @@ const Establishment = () => {
   const establishmentTitle = establishment?.title;
 
   return (
-    <Main>
-      {isLoading && "Loading..."}
-      {error && <div>Error</div>}
-      {establishment && (
+    <>
+      <Helmet>
+        <title>{`${establishmentTitle} | Holidaze`}</title>
+        <meta
+          name="description"
+          content={`${establishment?.short_description}`}
+        />
+      </Helmet>
+      <Main>
+        {status === FetchStatus.ERROR && <Message.Error>{error}</Message.Error>}
         <RelativeWrapper>
           <Container>
-            <ImageContainer>
-              <Image
-                fullWidth
-                src={establishment?.image.formats.large.url}
-                alt={establishment.image.alternativeText}
-              />
-            </ImageContainer>
-            <Spacer mt="1.5" />
-            <Grid minWidth={400}>
-              <Aside minWidth={60} asideWidth={400}>
-                <Section>
-                  <Heading size="2xl">{establishment.title}</Heading>
-                  <OfferList establishment={establishment} />
-                  <Spacer mt="2" />
-
-                  <FlexContainer col gap="1.5rem">
-                    <Box>
-                      <Heading.H3 size="l">Description</Heading.H3>
-                      <Paragraph>{establishment.description}</Paragraph>
-                    </Box>
-                    <Box>
-                      <Heading.H4 size="l">Amenities</Heading.H4>
-                      <Amenitites amenities={establishment.amenities} />
-                    </Box>
-
-                    <Box>
-                      <Heading.H5 size="l">Reviews</Heading.H5>
-                    </Box>
-                  </FlexContainer>
-                </Section>
-                <Section>
-                  <StayCalculator
-                    setToggle={setToggle}
-                    guests={guests}
-                    setGuests={setGuests}
-                    startDate={startDate}
-                    handleDateSelect={dateOnChange}
-                    endDate={endDate}
-                    price={establishment.price}
+            {status === FetchStatus.FETCHING && <EstablishmentLoader />}
+            {establishment && (
+              <>
+                <ImageContainer>
+                  <Image
+                    fullWidth
+                    src={establishment?.image.formats.large.url}
+                    alt={establishment.image.alternativeText}
                   />
-                </Section>
-              </Aside>
-            </Grid>
-            {toggle && (
-              <Popover margin="0.5rem" position="fixed">
-                <EnquirePopup
-                  host={host}
-                  establishmentTitle={establishmentTitle}
-                  setToggle={setToggle}
-                  establishment={establishment}
-                  guests={guests}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </Popover>
+                </ImageContainer>
+                <Spacer mt="1.5" />
+                <Grid minWidth={400}>
+                  <Aside minWidth={60} asideWidth={400}>
+                    <Section>
+                      <Heading size="2xl">{establishment.title}</Heading>
+                      <OfferList establishment={establishment} />
+                      <Spacer mt="2" />
+
+                      <FlexContainer col gap="1.5rem">
+                        <Box>
+                          <Heading.H3 size="l">Description</Heading.H3>
+                          <Paragraph>{establishment.description}</Paragraph>
+                        </Box>
+                        <Box>
+                          <Heading.H4 size="l">Amenities</Heading.H4>
+                          <Amenitites amenities={establishment.amenities} />
+                        </Box>
+
+                        <Box>
+                          <Heading.H5 size="l">Reviews</Heading.H5>
+                        </Box>
+                      </FlexContainer>
+                    </Section>
+                    <Section>
+                      <StayCalculator
+                        setToggle={setToggle}
+                        guests={guests}
+                        setGuests={setGuests}
+                        startDate={startDate}
+                        handleDateSelect={dateOnChange}
+                        endDate={endDate}
+                        price={establishment.price}
+                      />
+                    </Section>
+                  </Aside>
+                </Grid>
+                {toggle && (
+                  <Popover margin="0.5rem" position="fixed">
+                    <EnquirePopup
+                      host={host}
+                      establishmentTitle={establishmentTitle}
+                      setToggle={setToggle}
+                      establishment={establishment}
+                      guests={guests}
+                      startDate={startDate}
+                      endDate={endDate}
+                    />
+                  </Popover>
+                )}
+              </>
             )}
           </Container>
         </RelativeWrapper>
-      )}
-    </Main>
+      </Main>
+    </>
   );
 };
 

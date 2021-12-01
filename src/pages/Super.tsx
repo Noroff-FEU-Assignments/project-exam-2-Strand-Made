@@ -10,6 +10,7 @@ import Stack from "../components/layout/Stack/Stack";
 import ContactMessages from "../components/admin-dashboard/contact-messages/ContactMessages";
 import Main from "../components/layout/Main/Main";
 import Message from "../components/Message/Message";
+import EmptyEnquiries from "../components/empty-states/EmptyEnquiries";
 
 const Super = () => {
   const { auth } = useAuth();
@@ -39,7 +40,6 @@ const Super = () => {
         });
         setStatus(FetchStatus.SUCCESS);
         setMessages(res.data);
-        console.log(res.data);
       } catch (error) {
         setStatus(FetchStatus.ERROR);
         setError(error.toString());
@@ -57,14 +57,15 @@ const Super = () => {
           {status === FetchStatus.ERROR && (
             <Message.Error>{error}</Message.Error>
           )}
+          {status === FetchStatus.FETCHING && "Loading..."}
           <Stack space={"1rem"}>
-            {messages.map((message) => (
-              <ContactMessages
-                key={message.id}
-                status={status}
-                message={message}
-              />
-            ))}
+            {messages.length > 0 ? (
+              messages.map((message) => (
+                <ContactMessages key={message.id} message={message} />
+              ))
+            ) : (
+              <EmptyEnquiries />
+            )}
           </Stack>
         </Stack>
       </Container>
