@@ -10,11 +10,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../api/baseUrl";
 import Main from "../components/layout/Main/Main";
+import { FetchStatus } from "../utils/globalTypes";
 
 const CreateEstablishment = () => {
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
-  const [files, setFiles] = useState(null);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState<FetchStatus>(FetchStatus.IDLE);
+  const [files, setFiles] = useState<Blob | string>("");
 
   let navigate = useNavigate();
   const { auth } = useAuth();
@@ -24,10 +25,9 @@ const CreateEstablishment = () => {
     }
   }, [auth, navigate]);
 
-  async function createEstablishment(data) {
+  async function createEstablishment(data: any) {
     const url = `${baseUrl}/establishments`;
-    setSuccess(false);
-    setError(null);
+    setStatus(FetchStatus.FETCHING);
     const res = await axios({
       method: "POST",
       url: url,
@@ -38,7 +38,7 @@ const CreateEstablishment = () => {
     })
       .then((res) => {
         console.log(res.data);
-        const imageUpload = async (res) => {
+        const imageUpload = async (res: any) => {
           const uploadUrl = `${baseUrl}/upload`;
           const formData = new FormData();
           const id = res.data.id;
@@ -57,9 +57,11 @@ const CreateEstablishment = () => {
           });
         };
         imageUpload(res);
+        setStatus(FetchStatus.SUCCESS);
       })
       .catch((err) => {
         setError(err.toString());
+        setStatus(FetchStatus.ERROR);
       });
   }
 
@@ -78,7 +80,7 @@ const CreateEstablishment = () => {
           <Link to="/admin">Go back</Link>
           <CreateEstablishmentForm
             createEstablishment={createEstablishment}
-            success={success}
+            status={status}
             error={error}
             setFiles={setFiles}
             auth={auth}

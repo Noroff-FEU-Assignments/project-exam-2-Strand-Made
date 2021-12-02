@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
@@ -27,13 +27,14 @@ import EstablishmentLoader from "../components/layout/SkeleteonLoader/Establishm
 const Establishment = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   let params = useParams();
+  let navigate = useNavigate();
   const { establishmentSlug } = params;
 
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.IDLE);
   const [error, setError] = useState("");
 
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(undefined);
   const [guests, setGuests] = useState(1);
   const [establishment, setEstablishment] = useState<EstablishmentType | null>(
     null
@@ -47,19 +48,23 @@ const Establishment = () => {
         const res = await axios.get(
           `${baseUrl}/establishments?slug=${establishmentSlug}`
         );
+
         const data = res.data[0];
         setStatus(FetchStatus.SUCCESS);
+        if (!data) {
+          navigate("/");
+        }
 
         setEstablishment(data);
-      } catch (error) {
+      } catch (error: any) {
         setStatus(FetchStatus.ERROR);
         setError(error.toString());
       }
     };
     fetchEstablishment();
-  }, [baseUrl, establishmentSlug, setEstablishment]);
+  }, [baseUrl, establishmentSlug, navigate, setEstablishment]);
 
-  const dateOnChange = (dates) => {
+  const dateOnChange = (dates: any) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
@@ -87,7 +92,7 @@ const Establishment = () => {
                   <Image
                     height={500}
                     fullWidth
-                    src={`${baseUrl}/${establishment?.image.formats.large.url}`}
+                    src={`${establishment?.image.formats.large.url}`}
                     alt={establishment.image.alternativeText}
                   />
                 </Box>

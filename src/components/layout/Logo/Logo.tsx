@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaQueries } from "../../utils/styleHelpers";
+import { mediaQueries } from "../../../utils/styleHelpers";
 
 type LogoProp = {
   href?: string;

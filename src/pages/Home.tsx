@@ -5,6 +5,8 @@ import SearchBar from "../components/forms/SearchBar/SearchBar";
 import Section from "../components/layout/Section/Section";
 import Container from "../components/layout/Container/Container";
 import SuggestionsCard from "../components/SuggestionsCard/SuggestionsCard";
+import JoinUs from "../assets/join-us.webp";
+import ExploreStays from "../assets/explore-stays.webp";
 import Banner from "../components/Banner/Banner";
 import Heading from "../components/Typography/Heading";
 import Spacer from "../components/layout/utilities/Spacer/Spacer";
@@ -63,15 +65,13 @@ const Home = () => {
             {error && <div>{error}</div>}
             {category.map((suggestion: CategorySuggestion) => {
               const { category_suggestion_title, id, Slug } = suggestion;
-
               const { url, alternativeText } = suggestion.category_image;
-              const imageUrl = `${url}`;
               return (
                 <SuggestionsCard
                   slug={Slug}
                   key={id}
                   title={category_suggestion_title}
-                  img={imageUrl}
+                  img={url}
                   imgDesc={alternativeText}
                 />
               );
@@ -86,9 +86,7 @@ const Home = () => {
                 heading=" Explore stays Bergen"
                 to={"/establishments"}
                 linkText="Explore"
-                image={
-                  "https://images.unsplash.com/photo-1570571054854-8f5a9f80504a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
-                }
+                image={ExploreStays}
               />
             </Box>
             <Box>
@@ -96,9 +94,7 @@ const Home = () => {
                 heading="Join us"
                 to={"/contact"}
                 linkText="Contact us"
-                image={
-                  "https://images.unsplash.com/photo-1507038772120-7fff76f79d79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
-                }
+                image={JoinUs}
               />
             </Box>
           </Switcher>

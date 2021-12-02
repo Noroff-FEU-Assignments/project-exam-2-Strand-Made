@@ -1,3 +1,4 @@
+import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 import Image from "../../layout/Image/Image";
@@ -5,34 +6,51 @@ import Heading from "../../Typography/Heading";
 import Demphasize from "../../Typography/DeEmphasize";
 import Frame from "../../layout/utilities/Frame/Frame";
 import Box from "../../layout/Box/Box";
+import Stack from "../../layout/Stack/Stack";
+import Spacer from "../../layout/utilities/Spacer/Spacer";
 
 interface EstablishmentPropTypes {
-  img?: string;
-  title?: string;
-  price?: number;
+  img: string;
+  title: string;
+  price: number;
   slug: string;
-  id?: number;
   altText?: string;
 }
+
+const EstablishmentCardImage = styled.div`
+  transition-property: transform, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  backface-visibility: hidden;
+  :hover {
+    transform: scale(1.02);
+    opacity: 0.8;
+  }
+`;
 
 const Card = ({ img, title, price, slug, altText }: EstablishmentPropTypes) => {
   return (
     <Box>
-      <Box>
+      <EstablishmentCardImage>
         <Link to={slug}>
           <Frame>
             <Image borderRadius src={img} alt={altText ? altText : title} />
           </Frame>
         </Link>
-      </Box>
+      </EstablishmentCardImage>
+      <Spacer mt="0.75" />
       <FlexContainer justifyContent="space-between" alignItems="center">
         <Heading.H2 weight="400" size="l">
           {title}
         </Heading.H2>
         <Box>
-          <Heading.H3 color="var(--cool-gray-9)">
-            ${price} <Demphasize>/ night</Demphasize>
-          </Heading.H3>
+          <Stack>
+            <Demphasize>from</Demphasize>
+            <Heading.H3 size="l" color="var(--cool-gray-9)">
+              <Demphasize fontSize="1rem">$ </Demphasize> {price}
+              <Demphasize fontSize="1rem"> per night</Demphasize>
+            </Heading.H3>
+          </Stack>
         </Box>
       </FlexContainer>
     </Box>
