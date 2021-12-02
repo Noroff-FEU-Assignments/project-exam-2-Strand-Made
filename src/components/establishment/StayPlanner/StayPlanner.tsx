@@ -19,13 +19,13 @@ interface IStayCalculator {
   startDate: Date;
   endDate: Date;
 }
-const Calculator = styled.div`
+const Planner = styled.div`
   box-shadow: ${shadows.md};
   border-bottom-left-radius: ${borderRadius.md};
   border-bottom-right-radius: ${borderRadius.md};
 `;
 
-const StayCalculator = ({
+const StayPlanner = ({
   price,
   setToggle,
   startDate,
@@ -35,7 +35,7 @@ const StayCalculator = ({
   handleDateSelect,
 }: IStayCalculator) => {
   return (
-    <Calculator>
+    <Planner>
       <Stack>
         <Box
           borderRadiusT
@@ -85,8 +85,8 @@ const StayCalculator = ({
           </PrimaryButton>
         </Box>
       </Stack>
-    </Calculator>
+    </Planner>
   );
 };
 
-export default StayCalculator;
+export default StayPlanner;

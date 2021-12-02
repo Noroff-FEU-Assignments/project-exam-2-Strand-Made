@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { borderRadius } from "../../../globalStyle/_variables";
 import Box from "../../layout/Box/Box";
 
-interface ISmallBanner {
+type ISmallBanner = {
   children: ReactNode;
-}
+};
 
 const StyledSmallBanner = styled.div`
   background: white;
@@ -16,7 +16,7 @@ const StyledSmallBanner = styled.div`
   }
 `;
 
-const SmallBanner = ({ children }: ISmallBanner) => {
+const InfoBanner = ({ children }: ISmallBanner) => {
   return (
     <StyledSmallBanner>
       <Box borderRadius padding={"2rem"}>
@@ -26,4 +26,4 @@ const SmallBanner = ({ children }: ISmallBanner) => {
   );
 };
 
-export default SmallBanner;
+export default InfoBanner;

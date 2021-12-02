@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Heading from "../Typography/Heading";
 import BannerSection from "./BannerSection";
 import FlexContainer from "../layout/utilities/Flex/FlexContainer";
-import Box from "../layout/Box/Box";
 import { Link } from "react-router-dom";
 import BannerButton from "../BannerButton/BannerButton";
 

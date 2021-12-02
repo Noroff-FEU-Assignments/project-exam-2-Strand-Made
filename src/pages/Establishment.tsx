@@ -1,8 +1,8 @@
-import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
+import { EstablishmentType, FetchStatus } from "../utils/globalTypes";
 import Heading from "../components/Typography/Heading";
 import Container from "../components/layout/Container/Container";
 import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
@@ -14,58 +14,15 @@ import RelativeWrapper from "../components/layout/navigation/MobileNav/RelativeW
 import Image from "../components/layout/Image/Image";
 import Popover from "../components/layout/Popover/Popover";
 import Box from "../components/layout/Box/Box";
-import { borderRadius } from "../globalStyle/_variables";
 import OfferList from "../components/establishment/OfferList/OfferList";
 import Section from "../components/layout/Section/Section";
 import Grid from "../components/layout/utilities/Grid/Grid";
-import StayCalculator from "../components/establishment/StayCalculator/StayCalculator";
+import StayPlanner from "../components/establishment/StayPlanner/StayPlanner";
 import Aside from "../components/layout/Aside/Aside";
 import Main from "../components/layout/Main/Main";
 import EnquirePopup from "../components/establishment/EnquirePopup/EnquirePopup";
-import { FetchStatus } from "../utils/globalTypes";
 import Message from "../components/Message/Message";
 import EstablishmentLoader from "../components/layout/SkeleteonLoader/Establishment/EstablishmentLoader";
-
-export type TUser = {
-  id: number;
-  username: string;
-  email: string;
-};
-
-export type EstablishmentType = {
-  id: number;
-  title: string;
-  price: number;
-  bedrooms: number;
-  distance_city_centre_km: number;
-  user: TUser;
-  slug: string;
-  image: {
-    alternativeText: string;
-    url: string;
-    formats: {
-      large: {
-        url: string;
-      };
-      small: {
-        url: string;
-      };
-    };
-  };
-  amenities: {
-    breakfast: boolean;
-    shower: boolean;
-    gym: boolean;
-    office: boolean;
-    cleaning: boolean;
-  };
-  description: string;
-  short_description: string;
-};
-
-const ImageContainer = styled.div`
-  border-radius: ${borderRadius.md};
-`;
 
 const Establishment = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -126,13 +83,13 @@ const Establishment = () => {
             {status === FetchStatus.FETCHING && <EstablishmentLoader />}
             {establishment && (
               <>
-                <ImageContainer>
+                <Box borderRadius>
                   <Image
                     fullWidth
                     src={establishment?.image.formats.large.url}
                     alt={establishment.image.alternativeText}
                   />
-                </ImageContainer>
+                </Box>
                 <Spacer mt="1.5" />
                 <Grid minWidth={400}>
                   <Aside minWidth={60} asideWidth={400}>
@@ -140,7 +97,6 @@ const Establishment = () => {
                       <Heading size="2xl">{establishment.title}</Heading>
                       <OfferList establishment={establishment} />
                       <Spacer mt="2" />
-
                       <FlexContainer col gap="1.5rem">
                         <Box>
                           <Heading.H3 size="l">Description</Heading.H3>
@@ -150,14 +106,12 @@ const Establishment = () => {
                           <Heading.H4 size="l">Amenities</Heading.H4>
                           <Amenitites amenities={establishment.amenities} />
                         </Box>
-
-                        <Box>
-                          <Heading.H5 size="l">Reviews</Heading.H5>
-                        </Box>
                       </FlexContainer>
                     </Section>
+
                     <Section>
-                      <StayCalculator
+                      <Spacer mt="1.5" />
+                      <StayPlanner
                         setToggle={setToggle}
                         guests={guests}
                         setGuests={setGuests}
