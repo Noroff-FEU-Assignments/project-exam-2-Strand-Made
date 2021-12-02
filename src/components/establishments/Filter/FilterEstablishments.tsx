@@ -6,6 +6,7 @@ import Spacer from "../../layout/utilities/Spacer/Spacer";
 import Modal from "../../Modal/Modal";
 import Emphasize from "../../Typography/Emphasize";
 import Heading from "../../Typography/Heading";
+import FlexContainer from "../../layout/utilities/Flex/FlexContainer";
 
 interface IFilter {
   sortByPrice: any;
@@ -36,26 +37,29 @@ const FilterEstablishments = ({
   categories,
   setCategories,
 }: IFilter) => {
-  const handleChange = (category, setter, valueToSet) => {
-    if (category === "") {
-      return setter(valueToSet);
-    } else {
-      setter("");
-    }
-    let categoryArray = categories;
-    const found = categoryArray.includes(valueToSet);
-    if (found) {
-      let filtered = categoryArray.filter(
-        (specificCategory) => specificCategory === valueToSet
-      );
-      return setCategories(filtered);
-    } else {
-      categoryArray.push(category);
-    }
-    setCategories(categoryArray);
-  };
+  // const handleChange = (category, setter, valueToSet) => {
+  //   if (category === "") {
+  //     return setter(valueToSet);
+  //   } else {
+  //     setter("");
+  //   }
+  //   let categoryArray = categories;
+  //   const found = categoryArray.includes(valueToSet);
+  //   if (found) {
+  //     let filtered = categoryArray.filter(
+  //       (specificCategory) => specificCategory === valueToSet
+  //     );
+  //     return setCategories(filtered);
+  //   } else {
+  //     categoryArray.push(category);
+  //   }
+  //   setCategories(categoryArray);
+  // };
 
-  console.log(categories);
+  const resetFilter = () => {
+    sortByPrice(null);
+    sortByAlphabet(null);
+  };
 
   return (
     <>
@@ -64,34 +68,26 @@ const FilterEstablishments = ({
           <Box>
             <Heading.H3>Filter</Heading.H3>
             <Spacer mt={"0.75"} />
-            <SecondaryButton onClick={sortByPrice}>
-              Price {sortPrice ? "(Descending)" : "(Ascending)"}
-            </SecondaryButton>
-            <SecondaryButton onClick={sortByAlphabet}>
-              Alphabetically {sortAlphabet ? "(Descending)" : "(Ascending)"}
-            </SecondaryButton>
+            <FlexContainer gap="0.75rem">
+              <SecondaryButton onClick={sortByPrice}>
+                Price {sortPrice ? "(Descending)" : "(Ascending)"}
+              </SecondaryButton>
+              <SecondaryButton onClick={sortByAlphabet}>
+                Alphabetically {sortAlphabet ? "(Descending)" : "(Ascending)"}
+              </SecondaryButton>
+            </FlexContainer>
           </Box>
           <Box>
             <Emphasize>Categories</Emphasize>
             <Spacer mt={"0.75"} />
-            <Checkbox
-              labelText="Houses"
-              name="houses"
-              value={houses}
-              onChange={() => handleChange(houses, setHouses, "houses")}
-            />
-            <Checkbox
-              labelText="Hotels"
-              name="hotels"
-              value={hotels}
-              onChange={() => handleChange(hotels, setHotels, "hotels")}
-            />
-            <Checkbox
-              labelText="B&b's"
-              name="b&b"
-              value={bb}
-              onChange={() => handleChange(bb, setBb, "b&b")}
-            />
+            <Checkbox labelText="Houses" name="houses" value={houses} />
+            <Checkbox labelText="Hotels" name="hotels" value={hotels} />
+            <Checkbox labelText="B&b's" name="b&b" value={bb} />
+          </Box>
+          <Box>
+            <SecondaryButton onClick={resetFilter}>
+              Reset filter
+            </SecondaryButton>
           </Box>
         </Stack>
       </Modal>
