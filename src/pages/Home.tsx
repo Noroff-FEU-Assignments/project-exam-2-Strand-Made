@@ -15,6 +15,10 @@ import Main from "../components/layout/Main/Main";
 import SkeletonLoader from "../components/layout/SkeleteonLoader/SkeletonLoader";
 import Switcher from "../components/layout/utilities/Switcher/Switcher";
 import Box from "../components/layout/Box/Box";
+import Paragraph from "../components/Typography/Paragraph";
+import Stack from "../components/layout/Stack/Stack";
+import FlexContainer from "../components/layout/utilities/Flex/FlexContainer";
+import LinkButton from "../components/Button/LinkButton";
 
 type CategorySuggestion = {
   category_image: CategoryImage;
@@ -26,6 +30,11 @@ type CategorySuggestion = {
 type CategoryImage = {
   alternativeText: string;
   url: string;
+  formats: {
+    small: {
+      url: string;
+    };
+  };
 };
 
 const Home = () => {
@@ -57,26 +66,29 @@ const Home = () => {
       <Spacer mb="4" />
       <Container>
         <Section>
-          <Heading.H2 weight="700" size="2xl">
-            Looking for something special?
-          </Heading.H2>
-          <Grid>
-            {isLoading && <SkeletonLoader numberofLoaders={3} />}
-            {error && <div>{error}</div>}
-            {category.map((suggestion: CategorySuggestion) => {
-              const { category_suggestion_title, id, Slug } = suggestion;
-              const { url, alternativeText } = suggestion.category_image;
-              return (
-                <SuggestionsCard
-                  slug={Slug}
-                  key={id}
-                  title={category_suggestion_title}
-                  img={url}
-                  imgDesc={alternativeText}
-                />
-              );
-            })}
-          </Grid>
+          <Stack space="1rem">
+            <Heading.H2 weight="700" size="2xl">
+              Find you dream stay today
+            </Heading.H2>
+            <Grid>
+              {isLoading && <SkeletonLoader numberofLoaders={3} />}
+              {error && <div>{error}</div>}
+              {category.map((suggestion: CategorySuggestion) => {
+                const { category_suggestion_title, id, Slug } = suggestion;
+                const { alternativeText } = suggestion.category_image;
+                const smallImage = suggestion.category_image.formats.small.url;
+                return (
+                  <SuggestionsCard
+                    slug={Slug}
+                    key={id}
+                    title={category_suggestion_title}
+                    img={smallImage}
+                    imgDesc={alternativeText}
+                  />
+                );
+              })}
+            </Grid>
+          </Stack>
         </Section>
         <Spacer mb="6" />
         <Section>
@@ -100,6 +112,47 @@ const Home = () => {
           </Switcher>
         </Section>
       </Container>
+      <Spacer mt="3" />
+      <Section pt={5} pb={20} background="var(--teal-5)">
+        <Container>
+          <Stack space="4rem">
+            <Heading.H4 color="var(--teal-1)" size="3xl">
+              Establishments vetted for you
+            </Heading.H4>
+            <Switcher threshold={500} space={2}>
+              <Stack space="1rem">
+                <Paragraph size="l" weight="600" color="var(--teal-1)">
+                  Book with confidence
+                </Paragraph>
+                <Paragraph color="var(--teal-1)">
+                  We have vetted all the establishments, to make sure that our
+                  customers have the best stay possible. Because who likes
+                  surprises? Except when they have to do with good food or a
+                  pool.
+                </Paragraph>
+              </Stack>
+              <Stack space="1rem">
+                <Paragraph size="l" weight="600" color="var(--teal-1)">
+                  Browse away
+                </Paragraph>
+                <Paragraph color="var(--teal-1)">
+                  We recognize that being connected is important. Therefore all
+                  establishments we offer has wifi, so that you can connect with
+                  your mom or post how sweet of a house you are staying at to
+                  Instagram.
+                </Paragraph>
+              </Stack>
+            </Switcher>
+            <FlexContainer col alignItems="center">
+              <Box>
+                <LinkButton invert full size="md" to="/establishments">
+                  See Bergen
+                </LinkButton>
+              </Box>
+            </FlexContainer>
+          </Stack>
+        </Container>
+      </Section>
     </Main>
   );
 };
