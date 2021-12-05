@@ -23,6 +23,7 @@ import Main from "../components/layout/Main/Main";
 import EnquirePopup from "../components/establishment/EnquirePopup/EnquirePopup";
 import Message from "../components/Message/Message";
 import EstablishmentLoader from "../components/layout/SkeleteonLoader/Establishment/EstablishmentLoader";
+import Stack from "../components/layout/Stack/Stack";
 
 const Establishment = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -98,21 +99,22 @@ const Establishment = () => {
                 </Box>
                 <Spacer mt="1.5" />
                 <Grid minWidth={400}>
-                  <Aside minWidth={60} asideWidth={400}>
+                  <Aside minWidth={60} asideWidth={350}>
                     <Section>
-                      <Heading size="2xl">{establishment.title}</Heading>
-                      <OfferList establishment={establishment} />
-                      <Spacer mt="2" />
-                      <FlexContainer col gap="1.5rem">
-                        <Box>
-                          <Heading.H3 size="l">Description</Heading.H3>
-                          <Paragraph>{establishment.description}</Paragraph>
-                        </Box>
-                        <Box>
-                          <Heading.H4 size="l">Amenities</Heading.H4>
-                          <Amenitites amenities={establishment.amenities} />
-                        </Box>
-                      </FlexContainer>
+                      <Stack space="1rem">
+                        <Heading size="2xl">{establishment.title}</Heading>
+                        <OfferList establishment={establishment} />
+                        <FlexContainer col gap="2rem">
+                          <Stack space="1rem">
+                            <Heading.H2 size="l">Description</Heading.H2>
+                            <Paragraph>{establishment.description}</Paragraph>
+                          </Stack>
+                          <Stack space="1rem">
+                            <Heading.H3 size="l">Amenities</Heading.H3>
+                            <Amenitites amenities={establishment.amenities} />
+                          </Stack>
+                        </FlexContainer>
+                      </Stack>
                     </Section>
 
                     <Section>
@@ -147,6 +149,7 @@ const Establishment = () => {
           </Container>
         </RelativeWrapper>
       </Main>
+      <Spacer mt="3" />
     </>
   );
 };
