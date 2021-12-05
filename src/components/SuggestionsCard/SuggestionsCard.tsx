@@ -41,7 +41,7 @@ const SuggestionsCard = ({ title, img, imgDesc, slug }: SuggestionProps) => {
     <SuggestionContainer to={link}>
       <ImageContainer>
         <Image width="300" src={img} alt={imgDesc} />
-        <BannerButton absolute left={1} bottom={1}>
+        <BannerButton absolute right={1} bottom={1}>
           {title}
         </BannerButton>
       </ImageContainer>
