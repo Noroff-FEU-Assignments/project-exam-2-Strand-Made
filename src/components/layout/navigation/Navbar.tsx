@@ -73,7 +73,11 @@ const Navbar = () => {
             aria-expanded={isToggled ? "true" : "false"}
             onClick={setIsToggled}
           >
-            {isToggled ? <HiX size={24} /> : <HiMenu size={24} />}
+            {isToggled ? (
+              <HiX size={24} color="var(--cool-gray-9)" />
+            ) : (
+              <HiMenu size={24} color="var(--cool-gray-9)" />
+            )}
           </ToggleMenuBtn>
         </Nav>
         <ButtonContainer>
