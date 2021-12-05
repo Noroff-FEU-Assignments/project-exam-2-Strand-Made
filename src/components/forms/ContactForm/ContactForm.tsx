@@ -12,6 +12,7 @@ import Box from "../../layout/Box/Box";
 import { useEffect, useState } from "react";
 import Message from "../../Message/Message";
 import Heading from "../../Typography/Heading";
+import InputContainer from "../Input/InputContainer";
 
 interface IContactform {
   status: string;
@@ -84,27 +85,29 @@ const ContactForm = ({ status, sendFormData, error }: IContactform) => {
     <ContactBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
         {error && <Message.Error>{error}</Message.Error>}
-        <Box>
+        <Stack space="2rem">
           <Heading.H2 size="l">Drop us a line</Heading.H2>
-          <Stack space={"0.5rem"}>
-            <Box>
+          <Stack space="1rem">
+            <InputContainer>
               <Label htmlFor="userName">Name</Label>
               <Input
                 type="text"
                 {...register("userName")}
                 value={name}
+                name="userName"
                 onChange={(e) => setName(e.target.value)}
               />
               {errors.name && (
                 <Message.Error>{errors.name.message}</Message.Error>
               )}
-            </Box>
-            <Box>
+            </InputContainer>
+            <InputContainer>
               <Label htmlFor="email">Email</Label>
-              <Stack space={"0.5rem"}>
+              <Stack space="0.5rem">
                 <Input
                   type="text"
                   {...register("email")}
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -112,34 +115,36 @@ const ContactForm = ({ status, sendFormData, error }: IContactform) => {
                   <Message.Error>{errors.email.message}</Message.Error>
                 )}
               </Stack>
-            </Box>
-            <Box>
+            </InputContainer>
+            <InputContainer>
               <Label htmlFor="subject">Subject</Label>
-              <Stack space={"0.5rem"}>
+              <Stack space="0.5rem">
                 <Input
                   type="text"
                   {...register("subject")}
                   value={subject}
+                  name="subject"
                   onChange={(e) => setSubject(e.target.value)}
                 />
                 {errors.subject && (
                   <Message.Error>{errors.subject.message}</Message.Error>
                 )}
               </Stack>
-            </Box>
-            <Box>
+            </InputContainer>
+            <InputContainer>
               <Label htmlFor="message">Message</Label>
-              <Stack space={"0.5rem"}>
+              <Stack space="0.5rem">
                 <TextBox
                   {...register("message")}
                   value={message}
+                  name="message"
                   onChange={(e) => setMessage(e.target.value)}
                 />
                 {errors.message && (
                   <Message.Error>{errors.message.message}</Message.Error>
                 )}
               </Stack>
-            </Box>
+            </InputContainer>
             <Box>
               <PrimaryButton full size="md">
                 {status === "idle" && "Submit"}
@@ -149,7 +154,7 @@ const ContactForm = ({ status, sendFormData, error }: IContactform) => {
               </PrimaryButton>
             </Box>
           </Stack>
-        </Box>
+        </Stack>
       </Form>
     </ContactBox>
   );
